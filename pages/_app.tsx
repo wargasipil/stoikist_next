@@ -5,11 +5,11 @@ import { RecoilRoot } from "recoil"
 import AppAlert from '../components/AppAlert'
 import { SessionProvider } from "next-auth/react"
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   
   return <RecoilRoot>
     <ChakraProvider>
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <AppAlert></AppAlert>
       <Component {...pageProps} />
     </SessionProvider>

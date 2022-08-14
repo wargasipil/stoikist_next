@@ -2,9 +2,16 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
+import Navbar from '../components/Navbar'
 
-const Home: NextPage = () => {
+interface Prop {
+  href: string
+}
+
+export default function Home(props: Prop){
   const { data: session, status } = useSession()
+  const { href } = props
+  console.log(props, 'hrefnya')
 
   return (
     <div>
@@ -15,6 +22,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
+        <Navbar></Navbar>
         <Accordion>
           <AccordionItem>
             <h2>
@@ -56,4 +64,3 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home

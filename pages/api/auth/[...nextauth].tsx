@@ -6,7 +6,7 @@ import { hashPassword } from '../../../helpers/cripto'
 
 
 export default NextAuth({
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma),
   pages: {
     signIn: '/login',
     // signOut: '/signout',
