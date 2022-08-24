@@ -10,3 +10,4 @@ yarn dlx prisma generate
 # task
 - validasi login dan register
 - login tidak mulus
+- insert category bisa null

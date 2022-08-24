@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from '@chakra-ui/react'
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, chakra, Flex, Link, Stack } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
@@ -22,42 +22,131 @@ export default function Home(props: Prop){
       </Head>
 
       <main>
-        <Navbar></Navbar>
-        <Accordion>
-          <AccordionItem>
-            <h2>
-              <AccordionButton>
-                <Box flex='1' textAlign='left'>
-                  Section 1 title {JSON.stringify(session)} {status}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat.
-            </AccordionPanel>
-          </AccordionItem>
+      <Navbar />
 
-          <AccordionItem>
-            <h2>
-              <AccordionButton>
-                <Box flex='1' textAlign='left'>
-                  Section 2 title
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat.
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
+
+      <Flex
+  bg="#edf3f8"
+  _dark={{
+    bg: "#3e3e3e",
+  }}
+  p={50}
+  w="full"
+  alignItems="center"
+  justifyContent="center"
+>
+  <Flex
+    justify="center"
+    bg="white"
+    _dark={{
+      bg: "gray.800",
+    }}
+    w="full"
+  >
+    <Box
+      w={{
+        base: "full",
+        md: "75%",
+        lg: "50%",
+      }}
+      px={4}
+      py={20}
+      textAlign={{
+        base: "left",
+        md: "center",
+      }}
+    >
+      <chakra.span
+        fontSize={{
+          base: "3xl",
+          sm: "4xl",
+        }}
+        fontWeight="extrabold"
+        letterSpacing="tight"
+        lineHeight="shorter"
+        color="gray.900"
+        _dark={{
+          color: "gray.100",
+        }}
+        mb={6}
+      >
+        <chakra.span display="block">Ready to dive in?</chakra.span>
+        <chakra.span
+          display="block"
+          color="brand.600"
+          _dark={{
+            color: "gray.500",
+          }}
+        >
+          Start your free trial today.
+        </chakra.span>
+      </chakra.span>
+      <Stack
+        justifyContent={{
+          base: "left",
+          md: "center",
+        }}
+        direction={{
+          base: "column",
+          sm: "row",
+        }}
+        spacing={2}
+        mt={2}
+      >
+        <Box display="inline-flex" rounded="md" shadow="md">
+          <Link
+            w="full"
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+            px={5}
+            py={3}
+            border="solid transparent"
+            fontWeight="bold"
+            rounded="md"
+            _light={{
+              color: "white",
+            }}
+            bg="brand.600"
+            _dark={{
+              bg: "brand.500",
+            }}
+            _hover={{
+              bg: "brand.700",
+              _dark: {
+                bg: "brand.600",
+              },
+            }}
+          >
+            Get started
+          </Link>
+        </Box>
+        <Box ml={3} display="inline-flex" rounded="md" shadow="md">
+          <Link
+            w="full"
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+            px={5}
+            py={3}
+            border="solid transparent"
+            fontWeight="bold"
+            rounded="md"
+            color="brand.600"
+            bg="white"
+            _hover={{
+              bg: "brand.50",
+            }}
+          >
+            Learn more
+          </Link>
+        </Box>
+      </Stack>
+    </Box>
+  </Flex>
+</Flex>
+
+
       </main>
 
     </div>

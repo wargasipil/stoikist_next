@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "interactiveTransactions"]
 }
 
 datasource db {
@@ -59,7 +60,146 @@ model VerificationToken {
 }
 
 
+model Category {
+  id                Int      @id @default(autoincrement())
+  name              String
+  parent_id         Int
+  products          CategoryProduct[]
+}
+
+model Product {
+  id                Int      @id @default(autoincrement())
+  rack_name         String
+  marketing_status  String
+  hscode            String
+  weight            Int
+  name              String
+  sku               Sku[]
+  options           ProductOption[]
+  variation         Variation[]
+  order_items       OrderItem[]
+  categories        CategoryProduct[]
+
+}
+
+model CategoryProduct {
+  id          Int                 @id @default(autoincrement())
+  product_id  Int
+  cat_id      Int
+  category    Category            @relation(fields: [cat_id], references: [id])
+
+  product     Product             @relation(fields: [product_id], references: [id])
+
+}
+
+model ProductOption {
+  id                Int       @id @default(autoincrement())
+  product_id        Int
+  name              String
+  options           String[]
+
+  product           Product   @relation(fields: [product_id], references: [id])
+  
+}
+
+model Sku {
+  id            String      @id
+  stock         Int         @default(0)
+  variation_id  Int         @unique
+  product_id    Int
+  last_restock  DateTime?
+  variation     Variation   @relation(fields: [variation_id], references: [id])
+  product       Product     @relation(fields: [product_id], references: [id])
+}
+
+model Variation {
+  id              Int       @id @default(autoincrement())
+  names           String[]  
+  values          String[]
+  price           Int
+  product_id      Int
+  is_default      Boolean     @default(false)
+  sku             Sku?
+  product         Product   @relation(fields: [product_id], references: [id])
+  order_items     OrderItem[]
+}
+
+
+model Order {
+  id              Int       @id @default(autoincrement())
+  customer_id     Int
+  status          StatusOrder
+  items           OrderItem[]
+  sub_total       Int
+  total           Int
+  customer        Customer  @relation(fields: [customer_id], references: [id])
+  created DateTime  @default(now())
+}
+
+model Customer {
+  id              Int       @id @default(autoincrement())
+  phone           String    @unique
+  address         String
+  orders          Order[]
+  created DateTime  @default(now())
+}
+
+model OrderItem {
+  order_id        Int       
+  product_id      Int
+  sku_id          Int
+  variation_id    Int
+  count           Int
+  order           Order     @relation(fields: [order_id], references: [id])
+  product         Product   @relation(fields: [product_id], references: [id])
+  variation       Variation @relation(fields: [variation_id], references: [id])
+
+  @@id([product_id, sku_id])
+}
+
+model Promo {
+  id      Int      @id @default(autoincrement())
+  name    String
+  type    DiscountType
+  value   Int
+}
+
+model Supplier {
+  id      Int      @id @default(autoincrement())
+  type_id Int
+  name String
+  note String
+  link String
+  stock_ongoing Int @default(0)
+  stock_ready Int   @default(0)
+  type SupplierType @relation(fields: [type_id], references: [id])
+  created DateTime  @default(now())
+}
+
+model SupplierType {
+  id      Int      @id @default(autoincrement())
+  name String      @unique
+  suppliers Supplier[]
+}
+
+model Rack {
+  id      Int      @id @default(autoincrement())
+  name String      @unique
+}
+
 enum Role {
   OWNER
   ADMIN
+}
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
+
+enum StatusOrder {
+  COMPLETED
+  PENDING
+  CANCEL
+  PROBLEM
 }

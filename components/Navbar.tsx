@@ -1,8 +1,7 @@
 import { useColorModeValue, useDisclosure, chakra, Flex, HStack, IconButton, VStack, CloseButton, Button, VisuallyHidden, InputGroup, InputLeftElement, Input, Avatar, Box } from "@chakra-ui/react"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
-import { AiFillBell, AiFillHome, AiFillTag, AiOutlineMenu } from "react-icons/ai"
+import { AiFillBell, AiFillHome, AiFillTag, AiOutlineMenu, AiFillSetting } from "react-icons/ai"
 import { BsPeopleFill } from 'react-icons/bs'
 import { FaBox, FaShoppingBag, FaWarehouse } from "react-icons/fa"
 import { MdLocalShipping } from "react-icons/md"
@@ -48,6 +47,16 @@ const rootMenu: MenuItem[] = [
     {
         name: 'Promo',
         path: '/promo',
+        icon: <AiFillTag />
+    },
+    {
+        name: 'Setting',
+        path: '/setting',
+        icon: <AiFillSetting />
+    },
+    {
+        name: 'Test',
+        path: '/ptest',
         icon: <AiFillTag />
     }
 ]
