@@ -1,10 +1,9 @@
 import { Box, Flex, FormControl, FormErrorMessage, Text, IconButton, Input, InputGroup, InputRightAddon, Tag, TagLabel, SimpleGrid, InputLeftAddon, Button, InputRightElement, TagRightIcon } from '@chakra-ui/react'
-import { Category } from "@prisma/client"
-import { useState, useCallback, useEffect } from 'react';
-import { AiOutlineCheck, AiOutlineClose, AiOutlineCloseCircle, AiTwotoneDelete } from 'react-icons/ai'
+import { useState, useCallback, useEffect } from 'react'
+import { AiOutlineCheck, AiOutlineClose, AiTwotoneDelete } from 'react-icons/ai'
 import { GrAddCircle } from 'react-icons/gr'
 import { atom, useRecoilState, useRecoilValue } from 'recoil'
-import { OptionCreatePayload, VariationCreatePayload } from '../../pages/api/product';
+import { OptionCreatePayload, VariationCreatePayload } from '../../pages/api/product'
 
 
 function allPossibleCases(arr: string[][]): string[][] {
