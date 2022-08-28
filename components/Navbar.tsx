@@ -70,8 +70,14 @@ export default function Navbar(){
     const href =''
 
     return (
-        <React.Fragment>
         <chakra.header
+            pos="relative"
+            boxSize="full"
+            position="fixed"
+
+            zIndex="1000"
+            h="55"
+            bg="white"
             w="full"
             px={{
             base: 2,
@@ -179,7 +185,6 @@ export default function Navbar(){
             </HStack>
             </Flex>
         </chakra.header>
-        </React.Fragment>
     )
 }
   

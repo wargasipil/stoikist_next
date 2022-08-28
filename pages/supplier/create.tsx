@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormHelperText, FormLabel, Input, Textarea } from "@chakra-ui/react"
+import { Box, Button, FormControl, FormHelperText, FormLabel, Heading, Input, Textarea } from "@chakra-ui/react"
 import { AiOutlinePlus } from "react-icons/ai"
 import Navbar from "../../components/Navbar"
 import { SupTypeSelect } from "../../components/SupplierType"
@@ -90,8 +90,12 @@ export default function SupplierCreate(prop: Prop){
   return <Box>
     
     <Navbar />
-    bakalan ada Breaddrumb
-    <Box>
+    <Box pt="55">
+    <Heading mt="4" ml="4">
+      Create Supplier
+    </Heading>
+
+    <Box p="4" width="50%">
       <FormControl size="sm">
         <FormLabel>Name</FormLabel>
         <Input 
@@ -100,7 +104,7 @@ export default function SupplierCreate(prop: Prop){
           type='name' size="sm" />
       </FormControl>
 
-      <FormControl size="sm">
+      <FormControl size="sm" mt="3">
         <FormLabel>Link Supplier</FormLabel>
         <Input 
           value={link}
@@ -108,7 +112,7 @@ export default function SupplierCreate(prop: Prop){
           type='name' size="sm" />
       </FormControl>
 
-      <FormControl size="sm">
+      <FormControl size="sm" mt="3">
         <FormLabel>Type</FormLabel>
         <SupTypeSelect size='sm' 
           value={type_id}
@@ -116,21 +120,22 @@ export default function SupplierCreate(prop: Prop){
         />
       </FormControl>
 
-      <FormControl size="sm">
+      <FormControl size="sm" mt="3">
         <FormLabel>Note</FormLabel>
         <Textarea size='sm' 
           value={note}
           onChange={e => setNote(e.target.value)}
         />
       </FormControl>
-      <Button 
+      <Button
+        mt="5"
         onClick={submit}
         leftIcon={<AiOutlinePlus />} colorScheme='green' variant='solid' size="sm">
         {supplierId ? 'Update': 'Create'}
       </Button>
       
     </Box>
-    
+    </Box>
 
     
   </Box>

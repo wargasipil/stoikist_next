@@ -3,20 +3,20 @@ import axios from "axios"
 import useSWR from "swr"
 import MyPagination from "../../components/MyPagination"
 import Navbar from "../../components/Navbar"
-import { PaginateRes, SupplierListQuery } from '../api/supplier/index'
+import { SupplierListQuery } from '../api/supplier/index'
 import { Supplier as Sup, SupplierType } from '@prisma/client'
 import SupplierFilterList from "../../components/supplier/FilterList"
 import { useRouter } from 'next/router'
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai"
 import { MutableRefObject, useCallback, useRef, useState } from 'react';
 import React from "react"
+import { PaginateRes } from "../../models/http/response"
 
 interface Supplier extends Sup {
   type: SupplierType
 }
 
 async function fetchSupplierList(url: string, params: SupplierListQuery): Promise<PaginateRes<Supplier>> {
-  console.log(params)
   const res = await axios.get(url, {
     params,
   })
@@ -27,7 +27,6 @@ async function fetchSupplierList(url: string, params: SupplierListQuery): Promis
 
 function SupplierLoading(){
   return <Box
-  bg="#edf3f8"
 >
   <Navbar />
   Loading
@@ -64,13 +63,11 @@ export default function SupplierPage () {
 
   const { items } = data
 
-  return <Box
-        bg="#edf3f8"
-    >
+  return <Box>
 <Navbar />
-
+<Box pt="55">
 <SupplierFilterList />
-<TableContainer>
+{/* <TableContainer> */}
   <Table variant='simple'
     shadow="md"
     borderWidth="1px"
@@ -117,22 +114,18 @@ export default function SupplierPage () {
       
       
     </Tbody>
-
-    <TableCaption>
-      <MyPagination 
-        pageChange={page => router.push(
-          {
-            query: {
-              ...router.query,
-              page
-            }
-          }
-        )}
-        {...data.pagination} />
-    </TableCaption>
   </Table>
-</TableContainer>
-
+{/* </TableContainer> */}
+<MyPagination 
+  pageChange={page => router.push(
+    {
+      query: {
+        ...router.query,
+        page
+      }
+    }
+  )}
+  {...data.pagination} />
 
 <AlertDialog
   isOpen={isOpen}
@@ -160,8 +153,6 @@ export default function SupplierPage () {
     </AlertDialogContent>
   </AlertDialogOverlay>
 </AlertDialog>
-
-
-
+</Box>
     </Box>
 }

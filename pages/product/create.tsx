@@ -1,28 +1,63 @@
-import {Text, Box, SimpleGrid, GridItem, Heading, chakra, Stack, FormControl, FormLabel, InputGroup, InputLeftAddon, Input, Textarea, FormHelperText, Flex, Avatar, Icon, Button, VisuallyHidden, Divider, Select, Checkbox, RadioGroup, Radio, FormErrorMessage, Grid, Spacer } from "@chakra-ui/react"
+import {Box,  Heading, FormControl, FormLabel, InputGroup, InputLeftAddon, Input, Textarea, FormHelperText, Flex, Avatar, Icon, Button, VisuallyHidden, Divider, Select, Checkbox, RadioGroup, Radio, FormErrorMessage, Grid, Spacer } from "@chakra-ui/react"
 import CategoryGroup from "../../components/CategoryGroup"
 import Navbar from "../../components/Navbar"
-import VariationFormCreate, { optionCreateState } from "../../components/product/VariationFormCreate"
-import { useState } from 'react'
+import VariationFormCreate, { optionCreateState, variationState } from "../../components/product/VariationFormCreate"
+import { useState, useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
 import { AiFillFileAdd } from "react-icons/ai"
+import { ProductCreatePayload } from "../api/product"
+import { Category, Product } from "@prisma/client"
+import axios from "axios"
+import { useRouter } from "next/router"
 
+async function createProduct(payload: ProductCreatePayload): Promise<Product> {
+  const res = await axios.post('/api/product', payload)
+
+  return res.data
+}
 
 export default function ProductCreate(){
   const options = useRecoilValue(optionCreateState)
-
+  const variations = useRecoilValue(variationState)
+  
   const [ name, setName ] = useState<string>('')
   const [ hscode, setHscode ] = useState<string>('')
   const [ weight, setWeight ] = useState<number>(0)
   const [ price, setPrice ] = useState<number>(0)
   const [ stock, setStock ] = useState<number>(0)
   const [ rackName, setRackName ] = useState<string>('')
+  const [ category, setCategory ] = useState<Category[]>([])
+  const [ marketStatus, setMarketStatus ] = useState<string>('')
+  const [ sku_id, setSku ] = useState<string>('')
 
   const notHaveVariation = options.length == 0
 
+  const router = useRouter()
+  const addProduct = useCallback(async () => {
+    const categories = category.map(categ => categ.id)
+    await createProduct({
+      categories,
+      hscode,
+      marketing_status: marketStatus,
+      name,
+      options,
+      price,
+      rack_name: rackName,
+      stock,
+      variations,
+      weight,
+      sku_id
+    })
+    router.push('/product')
+  }, [router, sku_id, category, hscode, marketStatus, name, options, price, rackName, weight, variations, stock])
+
+
   return <Box>
     <Navbar />
-    <Heading ml="6" mt="3">Create Product</Heading>
-    <Flex
+    
+    <Box pt="55">
+      <Heading ml="6" mt="3">Create Product</Heading>
+      <Flex
       minWidth='max-content'
       mt="6"
     >
@@ -51,6 +86,8 @@ export default function ProductCreate(){
           </FormLabel>
           <InputGroup size="sm">
             <Input
+              value={marketStatus}
+              onChange={(e) => setMarketStatus(e.target.value)}
               size="sm"
               placeholder="marketing status"
             />
@@ -128,6 +165,24 @@ export default function ProductCreate(){
           </FormControl>
         }
 
+        { notHaveVariation &&
+          <FormControl ml="2">
+            <FormLabel>
+              Sku :
+            </FormLabel>
+            <InputGroup size="sm">
+              <Input
+                value={sku_id}
+                onChange={e => setSku(e.target.value)}
+                size="sm"
+                placeholder="sku id"
+              />
+            </InputGroup>
+            <FormErrorMessage>
+            </FormErrorMessage>
+          </FormControl>
+        }
+
 
         
       </Box>
@@ -151,8 +206,8 @@ export default function ProductCreate(){
         <FormControl ml="2">
           <FormLabel>Category :</FormLabel>
           <CategoryGroup 
-            valueCat={[]}
-            categoryChange={cat => console.log(cat)}
+            valueCat={category}
+            categoryChange={setCategory}
           />
         </FormControl>
         
@@ -161,17 +216,18 @@ export default function ProductCreate(){
           <FormLabel>Variasi :</FormLabel>
           <VariationFormCreate />
         </FormControl>
-
-        
       
       </Box>
     </Flex>
     <Flex>
       <Button
+        onClick={addProduct}
         m="10"
         leftIcon={<AiFillFileAdd />} colorScheme='green'>Create</Button>
 
       <Spacer />
     </Flex>
+    </Box>
+    
   </Box>
 }

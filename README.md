@@ -11,3 +11,5 @@ yarn dlx prisma generate
 - validasi login dan register
 - login tidak mulus
 - insert category bisa null
+- page create product performa belum optimal
+- category limit sampai 3

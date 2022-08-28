@@ -260,7 +260,8 @@ export function VariationForm(){
   
 
   return <Box mt="4">
-    
+    { options.length > 0 &&
+
     <Flex>
       <FormControl>
         <InputGroup size="sm">
@@ -300,8 +301,11 @@ export function VariationForm(){
           onClick={terapkanSemua}
           leftIcon={<AiOutlineCheck />} colorScheme='green' size="sm">Terapkan Semua</Button>
       </FormControl>
-      
+
     </Flex>
+
+    }
+    
     { variations.map((item, index) => {
       return <VariationItem
         onChange={value => changeVariation(index, value)}

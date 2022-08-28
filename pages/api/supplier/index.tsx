@@ -2,21 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "../../../helpers/database"
 import { z } from "zod"
 import { Prisma, Supplier } from "@prisma/client"
-
-export interface PaginateRes<T> {
-    items: T[]
-    pagination: {
-        page: number
-        limit: number
-        total: number
-    }
-}
+import { PaginateRes } from "../../../models/http/response"
+import { validatePaginateQuery } from "../../../models/http/request"
 
 export const isQuery = z.object({
     type_id: z.number().or(z.string().regex(/\d+/).transform(Number)).or(z.undefined()),
     name: z.string().or(z.undefined()),
-    page: z.number().or(z.string().regex(/\d+/).transform(Number)).default(1),
-    limit: z.number().or(z.string().regex(/\d+/).transform(Number)).default(50)
+    ...validatePaginateQuery
 })
 
 export const isSupplierPayload = z.object({
