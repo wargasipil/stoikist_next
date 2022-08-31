@@ -165,27 +165,52 @@ model Promo {
 }
 
 model Supplier {
-  id      Int      @id @default(autoincrement())
-  type_id Int
-  name String
-  note String
-  link String
-  stock_ongoing Int @default(0)
-  stock_ready Int   @default(0)
-  type SupplierType @relation(fields: [type_id], references: [id])
-  created DateTime  @default(now())
+  id                Int                 @id @default(autoincrement())
+  type_id           Int
+  name              String
+  note              String
+  link              String
+  restock_items    RestockItem[]
+  stock_ongoing     Int                 @default(0)
+  stock_ready       Int                 @default(0)
+  type              SupplierType        @relation(fields: [type_id], references: [id])
+  created           DateTime            @default(now())
 }
 
 model SupplierType {
-  id      Int      @id @default(autoincrement())
-  name String      @unique
-  suppliers Supplier[]
+  id                Int         @id @default(autoincrement())
+  name              String      @unique
+  suppliers         Supplier[]
 }
 
 model Rack {
-  id      Int      @id @default(autoincrement())
-  name String      @unique
+  id      Int         @id @default(autoincrement())
+  name    String      @unique
 }
+
+model Restock {
+  id                        Int       @id @default(autoincrement())
+  shipment_status           StatusShipment
+  items                     RestockItem[]
+  resi                      String?
+  sub_total                 Int
+  total                     Int
+  created DateTime  @default(now())
+}
+
+model RestockItem {
+  shipment_id         Int       
+  supplier_id         Int
+  sku_id              Int
+  variation_id        Int
+  count               Int
+  restock             Restock  @relation(fields: [shipment_id], references: [id])
+  supplier            Supplier  @relation(fields: [supplier_id], references: [id])
+
+  @@id([shipment_id, sku_id])
+}
+
+
 
 enum Role {
   OWNER
@@ -202,4 +227,9 @@ enum StatusOrder {
   PENDING
   CANCEL
   PROBLEM
+}
+
+enum StatusShipment {
+  COMPLETED
+  PROCESS
 }

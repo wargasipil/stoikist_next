@@ -1,370 +1,219 @@
-import { Box, Flex, FormControl, FormErrorMessage, Text, IconButton, Input, InputGroup, InputRightAddon, Tag, TagLabel, SimpleGrid, InputLeftAddon, Button, InputRightElement, TagRightIcon } from '@chakra-ui/react'
-import { Category } from "@prisma/client"
-import { useState, useCallback, useEffect } from 'react';
-import { AiOutlineCheck, AiOutlineClose, AiOutlineCloseCircle, AiTwotoneDelete } from 'react-icons/ai'
-import { GrAddCircle } from 'react-icons/gr'
-import { atom, useRecoilState, useRecoilValue } from 'recoil'
+import { Box, Button, Flex, HStack, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Tag, Text, useDisclosure, useNumberInput, VStack } from '@chakra-ui/react'
 import Navbar from "../components/Navbar"
-import { OptionCreatePayload, VariationCreatePayload } from './api/product/index'
+import { HiDocument } from 'react-icons/hi'
+import { AiOutlineArrowRight, AiOutlineDelete, AiOutlineShoppingCart } from 'react-icons/ai'
+import { MdOutlineAddCircleOutline } from 'react-icons/md'
+import { BsArrowRight } from 'react-icons/bs'
+
+export function ReProductItem(){
+  return <HStack
+    p="1"
+    m="2"
+    boxShadow="1sm">
+      <HiDocument/>
+      <VStack align="flex-start">
+        
+        <HStack>
+          <Text fontSize="lg">
+            name gamis natural
+          </Text>
+          <Tag>merah</Tag>
+          <Tag>xl</Tag>
+        </HStack>
+
+        <Text>
+          sku: asdn79asd
+        </Text>
 
 
-function allPossibleCases(arr: string[][]): string[][] {
-  if(arr.length == 0){
-    return []
-  }
+      </VStack>
 
-  if (arr.length == 1) {
-    return arr[0].map(item => [item])
-  } else {
-    const first: string[] = arr[0]
-    const allCasesOfRest = allPossibleCases(arr.slice(1))
-    return first.flatMap( key => {
-      return allCasesOfRest.map(keys => [key, ...keys])
-    })
-  }
+    <IconButton
+      size="sm"
+      variant='ghost'
+      colorScheme='red'
+      aria-label='remove'
+      icon={<AiOutlineDelete />}
+    />
 
+  </HStack>
 }
 
 
-function OptionForm (prop: {
-  onChange: (payload: OptionCreatePayload) => unknown
-  onDelete: () => unknown
-  value: OptionCreatePayload
-}) {
-  const { onChange, value, onDelete } = prop
 
-  const [ name, setName ] = useState<string>(value.name)
-  const [ options, setOptions ] = useState<string[]>(value.options)
-  const [ optname, setOptname ] = useState<string>('')
-  
-  
 
-  const change = useCallback(() => {
-    onChange({
-      name,
-      options,
+function StockInput() {
+  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
+    useNumberInput({
+      step: 1,
+      defaultValue: 1,
+      min: 1,
+      max: 9999999,
+      precision: 0,
     })
-  }, [onChange, name, options])
 
-  const deleteOpti = useCallback((name: string) => {
-    const newoptions = options.filter(opti => opti != name)
+  const inc = getIncrementButtonProps()
+  const dec = getDecrementButtonProps()
+  const input = getInputProps()
 
-    setOptions(newoptions)
+  return (
+    <HStack>
+      <Button {...dec} size="sm">-</Button>
+      <Input {...input} size="sm" />
+      <Button {...inc} size="sm">+</Button>
+    </HStack>
+  )
+}
 
-    onChange({
-      name,
-      options: newoptions,
-    })
-  }, [setOptions, options, onChange])
 
-  const addOption = useCallback(() => {
-    if(!optname){
-      return
-    }
-    if(options.includes(optname)){
-      return
-    }
-    
-    const newoptions = [...options, optname]
-    
-    setOptions(newoptions)
-    setOptname('')
-    onChange({
-      name,
-      options: newoptions,
-    })
-  }, [setOptname, setOptions, optname, onChange, name, options])
+export function ReSupplierItem(){
+  return <HStack>
+      <AiOutlineShoppingCart />
+      <HStack>
+        <Text fontSize="lg">
+          Name Gamis Natural Suplier
+        </Text>
+        <Tag>bukalapak</Tag>
+      </HStack>
+      
+      <StockInput />
+
+      <IconButton
+        size="sm"
+        variant='ghost'
+        colorScheme='red'
+        aria-label='remove'
+        icon={<AiOutlineDelete />}
+      />
+
+    </HStack>
+}
+
+interface MapProductItemProp {
+  supplier?: boolean
+}
+
+
+function MapProductItem(prop: MapProductItemProp){
+
+  const { supplier } = prop
 
   return <Box>
-    <FormControl size="sm" mt="2">
-    <InputGroup size="sm">
-      <Input
-        value={name}
-        onBlur={change}
-        onChange={e => setName(e.target.value)}
-        size="sm"
-        placeholder="variation name"
-      />
-      
-      <FormErrorMessage>
-      </FormErrorMessage>
+    <HStack>
+      <ReProductItem />
 
-      <InputRightElement>
-        <IconButton
-          onClick={onDelete}
-          colorScheme='red'
-          size="sm"
-          variant="solid"
-          aria-label="delete option"
-          icon={<AiTwotoneDelete />}/>
-      </InputRightElement>
-    </InputGroup>
-    </FormControl>
-
-    <Flex>
-      <FormControl width="250" mt="2">
-        <InputGroup size="sm">
-          <Input
-            size="sm"
-            value={optname}
-            onChange={e => setOptname(e.target.value)}
-            placeholder="variation option"
-          />
-          <FormErrorMessage>
-          </FormErrorMessage>
-          <InputRightAddon>
-            <IconButton
-              onClick={addOption}
-              size="sm"
-              variant="ghost"
-              aria-label="add option"
-              icon={<GrAddCircle />}/>
-          </InputRightAddon>
-        </InputGroup>
-      </FormControl>
-      
-
-      <Box mt="2">
-        {
-          options.map(item => {
-            return <Tag key={item} ml="2">
-              <TagLabel>
-                { item }
-              </TagLabel>
-              <TagRightIcon 
-                onClick={() => deleteOpti(item)}
-                as={AiOutlineClose} />
-            </Tag>
-          })
-        }
-        
-      </Box>
-
-    </Flex>
-  </Box>
-}
-
-function VariationItem (prop: {
-  value: VariationCreatePayload
-  onChange: (value: VariationCreatePayload) => unknown
-}) {
-
-  const { value, onChange } = prop
-
-  return <Flex mt="2">
-    <FormControl>
-      <InputGroup size="sm">
-        <InputLeftAddon>
-          Price :
-        </InputLeftAddon>
-        <Input
-          type="number"
-          value={value.price}
-          onChange={ e => onChange({...value, price: Number(e.target.value)})}
-          size="sm"
-          placeholder="price"
-        />
-      </InputGroup>
-      <FormErrorMessage>
-      </FormErrorMessage>
-    </FormControl>
-
-    <FormControl ml="2">
-      <InputGroup size="sm">
-        <InputLeftAddon>
-          Stock :
-        </InputLeftAddon>
-        <Input
-          value={value.stock}
-          onChange={ e => onChange({...value, stock: Number(e.target.value)})}
-          size="sm"
-          placeholder="Stock"
-        />
-      </InputGroup>
-      <FormErrorMessage>
-      </FormErrorMessage>
-    </FormControl>
-
-    <FormControl ml="2">
-      <InputGroup size="sm">
-        <InputLeftAddon>
-          Sku Id :
-        </InputLeftAddon>
-        <Input
-          value={value.sku_id}
-          onChange={ e => onChange({...value, sku_id: e.target.value})}
-          size="sm"
-          placeholder="Sku id"
-        />
-      </InputGroup>
-      <FormErrorMessage>
-      </FormErrorMessage>
-    </FormControl>
-
-    <FormControl ml="2">
-      { value.values.join(', ') }
-    </FormControl>
-  </Flex>
-}
-
-export const variationState = atom<VariationCreatePayload[]>({
-  key: 'variationState',
-  default: []
-})
-
-export const optionCreateState = atom<OptionCreatePayload[]>({
-  key: 'optionCreateState',
-  default: []
-})
-
-function VariationForm(){
-  const [ stock, setStock ] = useState<number>(0)
-  const [ price, setPrice ] = useState<number>(0)
-  const [ variations, setVariations ] = useRecoilState(variationState)
-  const options = useRecoilValue(optionCreateState)
-
-  const changeVariation = (index: number, item: VariationCreatePayload) => {
-    setVariations(varis => varis.map((vari, ind) => {
-      if(index === ind){
-        return item
+      {
+        !supplier &&
+        <Button rightIcon={<AiOutlineArrowRight />} size="sm" colorScheme='teal' variant='outline'>
+          Add Supplier
+        </Button>
       }
-      return vari
-    }))
-  }
 
-  const terapkanSemua = useCallback(() => {
-    setVariations(varis => {
-      return varis.map(vari => {
-        return { ...vari, price, stock}
-      })
-    })
-  }, [setVariations, price, stock])
+      {
+        supplier &&
 
-  useEffect(() => {
-    const names = options.map(opti => opti.name)
-    const allOptions: string[][] = options.map(opti => opti.options)
-    const variKeys = allPossibleCases(allOptions)
-    const varis: VariationCreatePayload[] = variKeys.map(keys => {
-      return {
-        is_default: false,
-        names,
-        price: 0,
-        stock: 0,
-        sku_id: '',
-        values: keys
-      }
-    })
-    
-    setVariations(varis)
-  }, [options, setVariations])
-
+        <BsArrowRight />
   
+      }
 
-  return <Box mt="4">
-    
-    <Flex>
-      <FormControl>
-        <InputGroup size="sm">
-          <InputLeftAddon>
-            Price :
-          </InputLeftAddon>
-          <Input
-            value={price}
-            onChange={e => setPrice(Number(e.target.value))}
-            type="number"
-            size="sm"
-            placeholder="price"
-          />
-        </InputGroup>
-        <FormErrorMessage>
-        </FormErrorMessage>
-      </FormControl>
-
-      <FormControl ml="2">
-        <InputGroup size="sm">
-          <InputLeftAddon>
-            Stock :
-          </InputLeftAddon>
-          <Input
-            value={stock}
-            onChange={e => setStock(Number(e.target.value))}
-            type="number"
-            size="sm"
-            placeholder="Stock"
-          />
-        </InputGroup>
-        <FormErrorMessage>
-        </FormErrorMessage>
-      </FormControl>
-      <FormControl ml="2">
-        <Button 
-          onClick={terapkanSemua}
-          leftIcon={<AiOutlineCheck />} colorScheme='green' size="sm">Terapkan Semua</Button>
-      </FormControl>
+      { supplier &&
       
-    </Flex>
-    { variations.map((item, index) => {
-      return <VariationItem
-        onChange={value => changeVariation(index, value)}
-        key={index} value={item} />
-    })}
-
-    
-    
-
+        <ReSupplierItem />
+      }    
+      
+    </HStack>
   </Box>
 }
+
+
+function ProductSelectItem(){
+
+  return <HStack
+    shadow="1sm"
+    borderRadius="5"
+    _hover={{
+      bg: "gray.200",
+    }}
+    p="2"
+    m="1">
+      <HiDocument/>
+      <VStack align="flex-start">
+        
+        <HStack>
+          <Text fontSize="lg" fontWeight="450">
+            name gamis natural asdasa  asdasdas asdasdasd asdasd
+          </Text>
+          <Tag>merah</Tag>
+          <Tag>xl</Tag>
+        </HStack>
+
+        <Text fontWeight="300">
+          sku: asdn79asd
+        </Text>
+      </VStack>
+  </HStack>
+}
+
+
+
+function BasicUsage() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  return (
+    <>
+      <Button onClick={onOpen}>Add Product</Button>
+
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          
+          <ModalBody>
+            <Input />
+            <ProductSelectItem />
+            <ProductSelectItem />
+            <ProductSelectItem />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
+
+
+
+
 
 
 export default function Test() {
-  const [options, setOptions] = useRecoilState(optionCreateState)
   
-  const changeOpti = (index: number, item: OptionCreatePayload) => {
-    setOptions(optis => optis.map((opti, ind) => {
-      if(ind === index){
-        return item
-      }
-      return opti
-    }))
-  }
-
-  const addOpti = useCallback(() => {
-    setOptions(optis => {
-      if(optis.length >= 2){
-        return optis
-      }
-
-      return [...optis, {
-        name: '',
-        options: []
-      }]
-    })
-  }, [setOptions])
 
   return <Box>
     <Navbar></Navbar>
+    <Box pt="55">
 
-    {
-      options.map((item, index) => {
-        return <OptionForm 
-          key={index} 
-          value={item} 
-          onChange={(itemnew) => changeOpti(index, itemnew)}
-          onDelete={() => setOptions(options.filter((opti, ind) => ind !== index))}  
-        />
-      })
-    }
-    { options.length < 2 &&
-    
-      <Button 
-        onClick={addOpti}
-        mt="2"
-        leftIcon={<AiOutlineCheck />} colorScheme='green' size="sm">Tambah Option</Button>
-    
-    }
+      <Box>
+        <Input placeholder="Search Product" size="sm" />
+        {
+          [1,2,3].map(item => {
+            return <ReProductItem key={item} />
+          })
+        }
 
+        {
+          [1,2].map(item => {
+            return <ReProductItem key={item} />
+          })
+        }
 
-    <VariationForm />
-    
+        
+
+      </Box>
+      begin
+      <MapProductItem />
+      <MapProductItem supplier />
+      end
+      <ReSupplierItem />
+
+      <BasicUsage />
+    </Box>
   </Box>
 }

@@ -6,38 +6,10 @@ import { useRouter } from "next/router"
 import MyPagination from "../../components/MyPagination"
 import Navbar from "../../components/Navbar"
 import ProductFilter from "../../components/product/ProductFilter"
-import { ProductListQuery } from '../api/product/index'
 import { PaginateRes } from '../../models/http/response'
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
+import { ProductItem, IVariation, getProductList } from "../../src/client_api/product"
 
-
-interface IVariation {
-  id: number
-  names: string[]  
-  values: string[]
-  price: number
-  is_default: boolean
-  sku: {
-    id: string
-    stock: number
-    last_restock?: string
-  }
-}
-
-interface ProductItem extends Product {
-  variation: IVariation[]
-  categories: {
-    category: Category
-  }[]
-}
-
-async function getProductList(params: ProductListQuery): Promise<PaginateRes<ProductItem>>{
-  const res = await axios.get('/api/product', {
-    params,
-  })
-
-  return res.data
-}
 
 interface ProductTrProp { 
   item: ProductItem
@@ -124,6 +96,7 @@ export default function ProductPage () {
       page = Number(query.page)
     }
     return getProductList({
+      ...query,
       page,
       limit: 20
     })
@@ -184,24 +157,26 @@ export default function ProductPage () {
             
           </Tbody>
           <Tfoot>
-            <Flex>
-              <Spacer />
-              {
-                data &&
-                <MyPagination
-                  {...data?.pagination}
-                  pageChange={page => router.push(
-                    {
-                      query: {
-                        ...router.query,
-                        page
-                      }
-                    }
-                  )}
-                />
-              }
-              <Spacer />
-            </Flex>
+            <Tr>
+              <td>
+                <Flex>
+                  {
+                    data &&
+                    <MyPagination
+                      {...data?.pagination}
+                      pageChange={page => router.push(
+                        {
+                          query: {
+                            ...router.query,
+                            page
+                          }
+                        }
+                      )}
+                    />
+                  }
+                </Flex>
+              </td>
+            </Tr>
           </Tfoot>
         </Table>
       
