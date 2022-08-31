@@ -71,7 +71,7 @@ export default function ProductCreate(){
               value={name}
               onChange={e => setName(e.target.value)}
               size="sm"
-              placeholder="rack name"
+              placeholder="name"
             />
           </InputGroup>
           <FormErrorMessage>

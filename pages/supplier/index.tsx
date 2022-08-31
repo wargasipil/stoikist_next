@@ -48,7 +48,6 @@ export default function SupplierPage () {
   }, [setActiveId, onOpen])
 
   const deleteRow = useCallback(async () => {
-    console.log(activeId, 'asdasd')
     onClose()
     await axios.delete(`/api/supplier/${activeId}`)
     mutate()
@@ -67,7 +66,6 @@ export default function SupplierPage () {
 <Navbar />
 <Box pt="55">
 <SupplierFilterList />
-{/* <TableContainer> */}
   <Table variant='simple'
     shadow="md"
     borderWidth="1px"
@@ -115,7 +113,6 @@ export default function SupplierPage () {
       
     </Tbody>
   </Table>
-{/* </TableContainer> */}
 <MyPagination 
   pageChange={page => router.push(
     {

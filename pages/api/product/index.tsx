@@ -240,9 +240,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ...dbquery,
         include: {
           sku: true,
-          categories: true,
+          categories: {
+            select: {
+              category: true
+            }
+          },
           options: true,
-          variation: true
+          variation: {
+            select: {
+              id: true,
+              names: true,  
+              values: true,
+              price: true,
+              is_default: true,
+              sku: {
+                select: {
+                  id: true,
+                  stock: true,
+                  last_restock: true
+                }
+              }
+            }
+          }
         },
         skip: (query.page - 1) * query.limit,
         take: query.limit
