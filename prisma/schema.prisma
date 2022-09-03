@@ -79,6 +79,7 @@ model Product {
   variation         Variation[]
   order_items       OrderItem[]
   categories        CategoryProduct[]
+  product_promos    ProductPromo[]
 
 }
 
@@ -103,13 +104,14 @@ model ProductOption {
 }
 
 model Sku {
-  id            String      @id
-  stock         Int         @default(0)
-  variation_id  Int         @unique
-  product_id    Int
-  last_restock  DateTime?
-  variation     Variation   @relation(fields: [variation_id], references: [id])
-  product       Product     @relation(fields: [product_id], references: [id])
+  id                  String      @id
+  ready_stock         Int         @default(0)
+  ongoing_stock       Int         @default(0)
+  variation_id        Int         @unique
+  product_id          Int
+  last_restock        DateTime?
+  variation           Variation   @relation(fields: [variation_id], references: [id])
+  product             Product     @relation(fields: [product_id], references: [id])
 }
 
 model Variation {
@@ -133,23 +135,26 @@ model Order {
   sub_total       Int
   total           Int
   customer        Customer  @relation(fields: [customer_id], references: [id])
-  created DateTime  @default(now())
+  created         DateTime  @default(now())
 }
 
 model Customer {
   id              Int       @id @default(autoincrement())
-  phone           String    @unique
+  name            String
+  phone           String
   address         String
   orders          Order[]
-  created DateTime  @default(now())
+  last_order      DateTime  @default(now())
+  created         DateTime  @default(now())
 }
 
 model OrderItem {
   order_id        Int       
   product_id      Int
-  sku_id          Int
+  sku_id          String
   variation_id    Int
   count           Int
+  total           Int
   order           Order     @relation(fields: [order_id], references: [id])
   product         Product   @relation(fields: [product_id], references: [id])
   variation       Variation @relation(fields: [variation_id], references: [id])
@@ -158,10 +163,26 @@ model OrderItem {
 }
 
 model Promo {
-  id      Int      @id @default(autoincrement())
-  name    String
-  type    DiscountType
-  value   Int
+  id              Int      @id @default(autoincrement())
+  code            String   @unique
+  name            String
+  desc            String?
+  type            DiscountType
+  value           Int
+  start           DateTime?
+  end             DateTime?
+
+  product_promos  ProductPromo[]
+}
+
+model ProductPromo {
+  promo_id      Int
+  product_id    Int
+
+  promo         Promo   @relation(fields: [promo_id], references: [id])
+  product       Product @relation(fields: [product_id], references: [id])
+
+  @@id([promo_id, product_id])
 }
 
 model Supplier {
@@ -170,9 +191,14 @@ model Supplier {
   name              String
   note              String
   link              String
-  restock_items    RestockItem[]
-  stock_ongoing     Int                 @default(0)
-  stock_ready       Int                 @default(0)
+  
+  ongoing_stock     Int                 @default(0)
+  ready_stock       Int                 @default(0)
+
+  ongoing_shipment  Int                 @default(0)
+  total_shipment    Int                 @default(0)
+
+  restock_items     RestockItem[]
   type              SupplierType        @relation(fields: [type_id], references: [id])
   created           DateTime            @default(now())
 }
@@ -195,19 +221,19 @@ model Restock {
   resi                      String?
   sub_total                 Int
   total                     Int
-  created DateTime  @default(now())
+  created                   DateTime  @default(now())
 }
 
 model RestockItem {
-  shipment_id         Int       
+  restock_id         Int       
   supplier_id         Int
-  sku_id              Int
+  sku_id              String
   variation_id        Int
   count               Int
-  restock             Restock  @relation(fields: [shipment_id], references: [id])
+  restock             Restock  @relation(fields: [restock_id], references: [id])
   supplier            Supplier  @relation(fields: [supplier_id], references: [id])
 
-  @@id([shipment_id, sku_id])
+  @@id([restock_id, sku_id])
 }
 
 
