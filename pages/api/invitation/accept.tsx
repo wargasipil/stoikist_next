@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '../../../helpers/database'
-import { hashPassword } from '../../../helpers/cripto'
+import { prisma } from '../../../src/helpers/database'
+import { hashPassword } from '../../../src/helpers/cripto'
 import { RegisterPayload } from '../../../payload/user'
 
 interface RegisterRequest extends NextApiRequest {

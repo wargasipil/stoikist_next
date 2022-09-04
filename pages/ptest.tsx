@@ -1,9 +1,10 @@
 import { Box, Button, Flex, HStack, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Tag, Text, useDisclosure, useNumberInput, VStack } from '@chakra-ui/react'
-import Navbar from "../components/Navbar"
+import Navbar from "../src/components/Navbar"
 import { HiDocument } from 'react-icons/hi'
 import { AiOutlineArrowRight, AiOutlineDelete, AiOutlineShoppingCart } from 'react-icons/ai'
 import { MdOutlineAddCircleOutline } from 'react-icons/md'
 import { BsArrowRight } from 'react-icons/bs'
+import ProductSearchModal from '../src/components/product/ProductSearchModal'
 
 export function ReProductItem(){
   return <HStack
@@ -126,58 +127,6 @@ function MapProductItem(prop: MapProductItemProp){
 }
 
 
-function ProductSelectItem(){
-
-  return <HStack
-    shadow="1sm"
-    borderRadius="5"
-    _hover={{
-      bg: "gray.200",
-    }}
-    p="2"
-    m="1">
-      <HiDocument/>
-      <VStack align="flex-start">
-        
-        <HStack>
-          <Text fontSize="lg" fontWeight="450">
-            name gamis natural asdasa  asdasdas asdasdasd asdasd
-          </Text>
-          <Tag>merah</Tag>
-          <Tag>xl</Tag>
-        </HStack>
-
-        <Text fontWeight="300">
-          sku: asdn79asd
-        </Text>
-      </VStack>
-  </HStack>
-}
-
-
-
-function BasicUsage() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  return (
-    <>
-      <Button onClick={onOpen}>Add Product</Button>
-
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-          
-          <ModalBody>
-            <Input />
-            <ProductSelectItem />
-            <ProductSelectItem />
-            <ProductSelectItem />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
-  )
-}
-
 
 
 
@@ -185,6 +134,7 @@ function BasicUsage() {
 
 export default function Test() {
   
+  const {isOpen, onClose, onOpen } = useDisclosure()
 
   return <Box>
     <Navbar></Navbar>
@@ -212,8 +162,13 @@ export default function Test() {
       <MapProductItem supplier />
       end
       <ReSupplierItem />
-
-      <BasicUsage />
+      
+      <Button onClick={onOpen}>Add Product</Button>
+      <ProductSearchModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onClose}
+      />
     </Box>
   </Box>
 }

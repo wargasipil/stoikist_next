@@ -1,8 +1,8 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import NextAuth, { Session, User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { prisma } from "../../../helpers/database"
-import { hashPassword } from '../../../helpers/cripto'
+import { prisma } from "../../../src/helpers/database"
+import { hashPassword } from '../../../src/helpers/cripto'
 
 
 export default NextAuth({

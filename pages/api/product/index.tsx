@@ -1,6 +1,6 @@
 import { Product, Prisma } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from '../../../helpers/database'
+import { prisma } from '../../../src/helpers/database'
 import { z } from 'zod'
 import { validatePaginateQuery } from '../../../models/http/request'
 import { PaginateRes } from '../../../models/http/response'

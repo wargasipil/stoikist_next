@@ -1,6 +1,6 @@
 import { Box, Heading } from "@chakra-ui/react"
-import Navbar from "../components/Navbar"
-import { SupplierType } from "../components/SupplierType"
+import Navbar from "../src/components/Navbar"
+import { SupplierType } from "../src/components/SupplierType"
 
 export default function SettingPage(){
 	return <Box>

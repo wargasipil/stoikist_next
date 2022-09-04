@@ -2,7 +2,7 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
-import Navbar from '../components/Navbar'
+import Navbar from '../src/components/Navbar'
 
 interface Prop {
   href: string

@@ -1,11 +1,11 @@
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, IconButton, Link, Spacer, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react"
 import axios from "axios"
 import useSWR from "swr"
-import MyPagination from "../../components/MyPagination"
-import Navbar from "../../components/Navbar"
+import MyPagination from "../../src/components/MyPagination"
+import Navbar from "../../src/components/Navbar"
 import { SupplierListQuery } from '../api/supplier/index'
 import { Supplier as Sup, SupplierType } from '@prisma/client'
-import SupplierFilterList from "../../components/supplier/FilterList"
+import SupplierFilterList from "../../src/components/supplier/FilterList"
 import { useRouter } from 'next/router'
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai"
 import { MutableRefObject, useCallback, useRef, useState } from 'react';

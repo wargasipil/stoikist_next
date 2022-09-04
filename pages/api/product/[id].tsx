@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from '../../../helpers/database'
+import { prisma } from '../../../src/helpers/database'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req

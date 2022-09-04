@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { Prisma } from '@prisma/client'
 import { z } from "zod"
-import { prisma } from "../../../helpers/database"
+import { prisma } from "../../../src/helpers/database"
 
 const validatePayload = z.object({
     type_id: z.number(),

@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormHelperText, FormLabel, Heading, Input, Textarea } from "@chakra-ui/react"
 import { AiOutlinePlus } from "react-icons/ai"
-import Navbar from "../../components/Navbar"
-import { SupTypeSelect } from "../../components/SupplierType"
+import Navbar from "../../src/components/Navbar"
+import { SupTypeSelect } from "../../src/components/SupplierType"
 import { useState, useCallback, useEffect } from 'react';
 import { Supplier } from '@prisma/client'
 import { SupplierPayload } from "../api/supplier/[id]"

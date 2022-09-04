@@ -3,8 +3,8 @@ import { signIn } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { FaLock, FaUserAlt } from 'react-icons/fa'
 import { useRecoilState } from "recoil"
-import { alertState } from "../components/AppAlert"
-import Password from "../components/Password"
+import { alertState } from "../src/components/AppAlert"
+import Password from "../src/components/Password"
 
 interface LoginPayload {
   username: string

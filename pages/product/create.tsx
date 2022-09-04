@@ -1,7 +1,7 @@
 import {Box,  Heading, FormControl, FormLabel, InputGroup, InputLeftAddon, Input, Textarea, FormHelperText, Flex, Avatar, Icon, Button, VisuallyHidden, Divider, Select, Checkbox, RadioGroup, Radio, FormErrorMessage, Grid, Spacer } from "@chakra-ui/react"
-import CategoryGroup from "../../components/CategoryGroup"
-import Navbar from "../../components/Navbar"
-import VariationFormCreate, { optionCreateState, variationState } from "../../components/product/VariationFormCreate"
+import CategoryGroup from "../../src/components/CategoryGroup"
+import Navbar from "../../src/components/Navbar"
+import VariationFormCreate, { optionCreateState, variationState } from "../../src/components/product/VariationFormCreate"
 import { useState, useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
 import { AiFillFileAdd } from "react-icons/ai"

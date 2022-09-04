@@ -1,5 +1,6 @@
 import { Box, Heading, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
-import Navbar from "../components/Navbar"
+import Navbar from "../src/components/Navbar"
+
 
 export function UserItem(){
   return <Box>

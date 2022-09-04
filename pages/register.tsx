@@ -1,10 +1,10 @@
 import { Avatar, Box, Button, chakra, Flex, FormControl, FormHelperText, Heading, Input, InputGroup, InputLeftElement, Stack } from "@chakra-ui/react"
 import { FaUserAlt, FaMailBulk } from "react-icons/fa"
-import Password from "../components/Password"
+import Password from "../src/components/Password"
 import { useState } from 'react'
 import { RegisterPayload } from "../payload/user"
 import { useRecoilState } from 'recoil'
-import { alertState } from "../components/AppAlert"
+import { alertState } from "../src/components/AppAlert"
 import { useRouter } from "next/router"
 
 const CFaUserAlt = chakra(FaUserAlt)

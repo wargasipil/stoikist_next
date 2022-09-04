@@ -79,8 +79,6 @@ model Product {
   variation         Variation[]
   order_items       OrderItem[]
   categories        CategoryProduct[]
-  product_promos    ProductPromo[]
-
 }
 
 model CategoryProduct {
@@ -132,10 +130,20 @@ model Order {
   customer_id     Int
   status          StatusOrder
   items           OrderItem[]
-  sub_total       Int
-  total           Int
   customer        Customer  @relation(fields: [customer_id], references: [id])
   created         DateTime  @default(now())
+}
+
+model Invoice {
+  id                Int               @id @default(autoincrement())
+  invoice_status    InvoiceStatus
+  sub_total         Int
+  discount          Int               @default(0)
+  total             Int
+  promo_id          Int?
+  promo             Promo?            @relation(fields: [promo_id], references: [id])
+  created           DateTime          @default(now())
+
 }
 
 model Customer {
@@ -163,27 +171,20 @@ model OrderItem {
 }
 
 model Promo {
-  id              Int      @id @default(autoincrement())
-  code            String   @unique
+  id              Int             @id @default(autoincrement())
+  code            String          @unique
   name            String
   desc            String?
+  limit           Int?
+  used            Int             @default(0)
   type            DiscountType
   value           Int
   start           DateTime?
   end             DateTime?
-
-  product_promos  ProductPromo[]
+  deleted         Boolean         @default(false)
+  invoices        Invoice[]  
 }
 
-model ProductPromo {
-  promo_id      Int
-  product_id    Int
-
-  promo         Promo   @relation(fields: [promo_id], references: [id])
-  product       Product @relation(fields: [product_id], references: [id])
-
-  @@id([promo_id, product_id])
-}
 
 model Supplier {
   id                Int                 @id @default(autoincrement())
@@ -258,4 +259,10 @@ enum StatusOrder {
 enum StatusShipment {
   COMPLETED
   PROCESS
+}
+
+enum InvoiceStatus {
+  PAID
+  UNPAID
+  CREDIT
 }

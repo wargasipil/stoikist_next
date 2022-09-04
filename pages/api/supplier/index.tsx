@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from "../../../helpers/database"
+import { prisma } from "../../../src/helpers/database"
 import { z } from "zod"
 import { Prisma, Supplier } from "@prisma/client"
 import { PaginateRes } from "../../../models/http/response"

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from "../../../helpers/database"
+import { prisma } from "../../../src/helpers/database"
 import { CreateCategoryPayload } from "../../../payload/category"
 
 interface SupplierType {
