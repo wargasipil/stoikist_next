@@ -4,8 +4,8 @@ import Password from "../src/components/Password"
 import { useState } from 'react'
 import { RegisterPayload } from "../payload/user"
 import { useRecoilState } from 'recoil'
-import { alertState } from "../src/components/AppAlert"
 import { useRouter } from "next/router"
+import { alertState } from "../src/components/AlertNotif"
 
 const CFaUserAlt = chakra(FaUserAlt)
 const CFaMailBulk = chakra(FaMailBulk)
