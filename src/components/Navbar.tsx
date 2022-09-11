@@ -1,10 +1,11 @@
-import { useColorModeValue, useDisclosure, chakra, Flex, HStack, IconButton, VStack, CloseButton, Button, VisuallyHidden, InputGroup, InputLeftElement, Input, Avatar, Box } from "@chakra-ui/react"
+import { useColorModeValue, useDisclosure, chakra, Flex, HStack, IconButton, VStack, CloseButton, Button, VisuallyHidden, InputGroup, InputLeftElement, Input, Avatar, Box, Progress } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import React from "react"
 import { AiFillBell, AiFillHome, AiFillTag, AiOutlineMenu, AiFillSetting } from "react-icons/ai"
 import { BsPeopleFill } from 'react-icons/bs'
 import { FaBox, FaShoppingBag, FaWarehouse } from "react-icons/fa"
 import { MdLocalShipping } from "react-icons/md"
+import { AlertNotif } from "./AlertNotif"
 
 interface MenuItem {
     icon: JSX.Element
@@ -75,7 +76,7 @@ export default function Navbar(){
             boxSize="full"
             position="fixed"
 
-            zIndex="1000"
+            zIndex="100"
             h="55"
             bg="white"
             w="full"
@@ -184,6 +185,7 @@ export default function Navbar(){
                 />
             </HStack>
             </Flex>
+            <AlertNotif></AlertNotif>
         </chakra.header>
     )
 }

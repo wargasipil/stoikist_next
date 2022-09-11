@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 
 
 export async function updateOngoingStockSupplier(prisma: Prisma.TransactionClient, id: number, count: number) {
@@ -15,7 +15,7 @@ export async function updateOngoingStockSupplier(prisma: Prisma.TransactionClien
 
 }
 
-export async function ongoingToCompletedStockSupplier(prisma: Prisma.TransactionClient, id: number, count: number) {
+export async function ongoingToReadyStockSupplier(prisma: Prisma.TransactionClient, id: number, count: number) {
   await prisma.supplier.update({
     where: {
       id

@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient, Restock, RestockItem } from "@prisma/client"
 import { z } from "zod"
 import { stockOngoingToReady, updateOngoingStockSku } from "./SkuRepo"
-import { updateOngoingStockSupplier } from "./SupplierRepo"
+import { ongoingToReadyStockSupplier, updateOngoingStockSupplier } from "./SupplierRepo"
 
 interface RestockShipment extends Restock {
   items: RestockItem[]
@@ -70,8 +70,8 @@ export const stockItemPayload = z.object({
 
 export const createShipmentPayload = z.object({
   resi: z.string().or(z.undefined()),
-  total: z.number(),
-  sub_total: z.number(),
+  // total: z.number(),
+  // sub_total: z.number(),
   items: z.array(stockItemPayload)
 
 })
@@ -80,15 +80,15 @@ export type StockItemPayload = z.infer<typeof stockItemPayload>
 
 export type CreateShipmentPayload = z.infer<typeof createShipmentPayload>
 
-async function createShipment(prisma: Prisma.TransactionClient, payload: CreateShipmentPayload){
-  const { items, resi, total, sub_total } = payload
+export async function createShipment(prisma: Prisma.TransactionClient, payload: CreateShipmentPayload){
+  const { items, resi } = payload
   
   // creating shipment data
-  await prisma.restock.create({
+  const restock = await prisma.restock.create({
     data: {
       resi, 
-      total, 
-      sub_total,
+      total: 0, 
+      sub_total: 0,
       shipment_status: 'PROCESS'
     }
   })
@@ -98,6 +98,16 @@ async function createShipment(prisma: Prisma.TransactionClient, payload: CreateS
     await updateOngoingStockSku(prisma, item.sku_id, item.count)
     // update stock ongoing supplier
     await updateOngoingStockSupplier(prisma, item.supplier_id, item.count)
+    // creating restock shipment
+    await prisma.restockItem.create({
+      data: {
+        restock_id: restock.id, 
+        supplier_id: item.supplier_id,
+        sku_id: item.sku_id,
+        variation_id: item.variation_id,
+        count: item.count
+      }
+    })
   })
 
   await Promise.all(tasks)

@@ -1,5 +1,6 @@
-import { AlertTitle, AlertDescription, Alert, CloseButton, useDisclosure, AlertStatus } from "@chakra-ui/react"
+import { AlertTitle, AlertDescription, Alert, CloseButton, useDisclosure, AlertStatus, AlertProps } from "@chakra-ui/react"
 import { atom, useRecoilState } from "recoil"
+import { useEffect } from 'react'
 
 interface AlertState {
     status: AlertStatus
@@ -8,7 +9,7 @@ interface AlertState {
     show?: boolean
 }
 
-export const alertState = atom<AlertState>({
+const alertState = atom<AlertState>({
     key: 'alertStateKey',
     default: {
         status: "info",
@@ -16,6 +17,20 @@ export const alertState = atom<AlertState>({
     }
 })
 
+function useAlert() {
+    const [ data, setData ] = useRecoilState(alertState)
+    
+    const showAlert = (status: AlertStatus = "info", title: string, desc?: string) => {
+        setData({
+            show: true,
+            status: status,
+            title,
+            desc
+        })
+    }
+
+    return showAlert
+}
 
 export default function AppAlert(){
 

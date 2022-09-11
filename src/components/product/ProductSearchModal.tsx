@@ -1,7 +1,7 @@
 import { Input, Modal, ModalBody, ModalContent, ModalOverlay, ModalHeader } from '@chakra-ui/react'
 import { useQuery } from "@tanstack/react-query"
 import { useState } from 'react';
-import { getProductList, ProductItem } from "../../client_api/product"
+import { getProductList, ProductItem, IVariation } from '../../client_api/product'
 import useDebounce from '../../helpers/debounce';
 import ProductSelectItem from "./ProductSelectItem"
 
@@ -9,7 +9,7 @@ interface Prop {
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
-  onSelect?: (data: ProductItem) => unknown
+  onSelect?: (data: ProductItem, vari: IVariation) => unknown
 }
 
 export default function ProductSearchModal(prop: Prop) {
@@ -47,7 +47,7 @@ export default function ProductSearchModal(prop: Prop) {
             return <ProductSelectItem 
               onClick={() => {
                 if(onSelect){
-                  onSelect(product)
+                  onSelect(product, vari)
                 }
                 onClose()
 

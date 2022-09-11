@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import MyPagination from "../../src/components/MyPagination"
 import Navbar from "../../src/components/Navbar"
 import ProductFilter from "../../src/components/product/ProductFilter"
-import { PaginateRes } from '../../models/http/response'
+import { PaginateRes } from '../../src/models/response'
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
 import { ProductItem, IVariation, getProductList } from "../../src/client_api/product"
 

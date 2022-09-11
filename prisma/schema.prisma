@@ -110,6 +110,8 @@ model Sku {
   last_restock        DateTime?
   variation           Variation   @relation(fields: [variation_id], references: [id])
   product             Product     @relation(fields: [product_id], references: [id])
+  restock_items       RestockItem[]
+
 }
 
 model Variation {
@@ -122,6 +124,7 @@ model Variation {
   sku             Sku?
   product         Product   @relation(fields: [product_id], references: [id])
   order_items     OrderItem[]
+  restock_items   RestockItem[]
 }
 
 
@@ -231,8 +234,10 @@ model RestockItem {
   sku_id              String
   variation_id        Int
   count               Int
-  restock             Restock  @relation(fields: [restock_id], references: [id])
+  restock             Restock   @relation(fields: [restock_id], references: [id])
   supplier            Supplier  @relation(fields: [supplier_id], references: [id])
+  sku                 Sku       @relation(fields: [sku_id], references: [id])
+  variation           Variation @relation(fields: [variation_id], references: [id])
 
   @@id([restock_id, sku_id])
 }

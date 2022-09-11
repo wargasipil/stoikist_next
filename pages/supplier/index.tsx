@@ -3,27 +3,14 @@ import axios from "axios"
 import useSWR from "swr"
 import MyPagination from "../../src/components/MyPagination"
 import Navbar from "../../src/components/Navbar"
-import { SupplierListQuery } from '../api/supplier/index'
-import { Supplier as Sup, SupplierType } from '@prisma/client'
+
 import SupplierFilterList from "../../src/components/supplier/FilterList"
 import { useRouter } from 'next/router'
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai"
-import { MutableRefObject, useCallback, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useRef, useState } from 'react'
 import React from "react"
-import { PaginateRes } from "../../models/http/response"
+import { fetchSupplierList } from "../../src/client_api/supplier"
 
-interface Supplier extends Sup {
-  type: SupplierType
-}
-
-async function fetchSupplierList(url: string, params: SupplierListQuery): Promise<PaginateRes<Supplier>> {
-  const res = await axios.get(url, {
-    params,
-  })
-
-  return res.data
-
-}
 
 function SupplierLoading(){
   return <Box
@@ -93,8 +80,8 @@ export default function SupplierPage () {
               </Link>
             </Td>
             <Td>{item.type.name}</Td>
-            <Td isNumeric>{item.stock_ongoing}</Td>
-            <Td isNumeric>{item.stock_ready}</Td>
+            <Td isNumeric>{item.ongoing_stock}</Td>
+            <Td isNumeric>{item.ready_stock}</Td>
             <Td>{item.note}</Td>
             <Td align="right">
               <IconButton 

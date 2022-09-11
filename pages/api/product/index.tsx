@@ -2,8 +2,8 @@ import { Product, Prisma } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from '../../../src/helpers/database'
 import { z } from 'zod'
-import { validatePaginateQuery } from '../../../models/http/request'
-import { PaginateRes } from '../../../models/http/response'
+import { validatePaginateQuery } from '../../../src/models/request'
+import { PaginateRes } from '../../../src/models/response'
 
 
 const validateOption = z.object({
@@ -88,7 +88,7 @@ async function createProduct(req: NextApiRequest): Promise<Product> {
     const sku = await prisma.sku.create({
       data: {
         id: payload.sku_id,
-        stock: payload.stock,
+        ready_stock: payload.stock,
         variation_id: variation.id,
         product_id: product.id
       }
@@ -116,8 +116,8 @@ async function createProduct(req: NextApiRequest): Promise<Product> {
           sku: {
             create: {
               id: vari.sku_id,
-              stock: vari.stock,
-              product_id: product.id
+              ready_stock: vari.stock,
+              product_id: product.id,
             }
           }
         }
@@ -192,7 +192,7 @@ function createListQuery(query: ProductListQuery){
     dbquery.push({
       sku: {
         some: {
-          stock: {
+          ready_stock: {
             gte: query.min_stock
           }
         }
@@ -204,7 +204,7 @@ function createListQuery(query: ProductListQuery){
     dbquery.push({
       sku: {
         some: {
-          stock: {
+          ready_stock: {
             lte: query.max_stock
           }
         }
@@ -256,7 +256,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               sku: {
                 select: {
                   id: true,
-                  stock: true,
+                  ready_stock: true,
                   last_restock: true
                 }
               }

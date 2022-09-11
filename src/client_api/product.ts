@@ -1,6 +1,6 @@
 import { Category, Product } from "@prisma/client"
 import axios from "axios"
-import { PaginateRes } from "../../models/http/response"
+import { PaginateRes } from "../models/response"
 import { ProductListQuery } from "../../pages/api/product"
 
 

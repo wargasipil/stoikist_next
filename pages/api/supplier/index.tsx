@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "../../../src/helpers/database"
 import { z } from "zod"
 import { Prisma, Supplier } from "@prisma/client"
-import { PaginateRes } from "../../../models/http/response"
-import { validatePaginateQuery } from "../../../models/http/request"
+import { PaginateRes } from "../../../src/models/response"
+import { validatePaginateQuery } from "../../../src/models/request"
 
 export const isQuery = z.object({
     type_id: z.number().or(z.string().regex(/\d+/).transform(Number)).or(z.undefined()),
