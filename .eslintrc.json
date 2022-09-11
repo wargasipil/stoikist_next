@@ -2,7 +2,6 @@
   "extends": "next/core-web-vitals",
   "plugins": [
     "eslint-plugin-react",
-    "eslint-plugin-react-hooks",
-    "eslint-plugin-next"
+    "eslint-plugin-react-hooks"
   ]
 }
