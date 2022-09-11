@@ -9,16 +9,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'PUT':
 
       break
-    case 'GET':
+    case 'GET':{
       const product = await prisma.product.findFirst({
         where: {
           id: Number(id)
         }
       })
 
-      res.status(200).send(product)
-      break
-    
+      return res.status(200).send(product)
+    }
     case 'DELETE':
       await prisma.product.delete({
         where: {

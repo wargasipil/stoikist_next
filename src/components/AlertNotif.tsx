@@ -18,6 +18,7 @@ export const alertState = atom<AlertState>({
   }
 })
 
+// eslint-disable-next-line no-undef
 let showtime: NodeJS.Timeout | null = null
 
 export function useAlert() {

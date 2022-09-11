@@ -1,9 +1,7 @@
-import { Avatar, Box, Button, chakra, Flex, FormControl, FormHelperText, Heading, Input, InputGroup, InputLeftElement, InputRightElement, Link, Stack } from "@chakra-ui/react"
+import { Avatar, Box, Button, chakra, Flex, FormControl, FormHelperText, Heading, Input, InputGroup, InputLeftElement, Link, Stack } from "@chakra-ui/react"
 import { signIn } from "next-auth/react"
 import { useEffect, useState } from "react"
-import { FaLock, FaUserAlt } from 'react-icons/fa'
-import { useRecoilState } from "recoil"
-import { alertState } from "../src/components/AlertNotif"
+import { FaUserAlt } from 'react-icons/fa'
 import Password from "../src/components/Password"
 
 interface LoginPayload {
@@ -19,7 +17,6 @@ interface Csrf {
 const CFaUserAlt = chakra(FaUserAlt)
 
 function Login () {
-  const [_, setAlert] = useRecoilState(alertState)
   const [form, setForm ] = useState<LoginPayload>({
     password: '',
     username: '',

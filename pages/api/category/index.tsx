@@ -16,7 +16,7 @@ export default async function handler(req: CategoryRequest, res: NextApiResponse
     const { method, body } = req
 
     switch (method) {
-        case 'POST':
+        case 'POST': {
             const data = await prisma.category.create({
                 data: {
                     name: body.name,
@@ -24,11 +24,11 @@ export default async function handler(req: CategoryRequest, res: NextApiResponse
                 }
             })
 
-            res.status(200).send(data)
-            break
-        case 'GET':
+            return res.status(200).send(data)
+        }
+        case 'GET': {
             const categories = await prisma.category.findMany()
-            res.status(200).send(categories)
-            break
+            return res.status(200).send(categories)
+        }
     }
 }

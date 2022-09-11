@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client"
-import { type } from "os"
 import { z } from "zod"
 
 export const validateCustPayload = z.object({

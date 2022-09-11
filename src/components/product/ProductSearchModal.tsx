@@ -9,6 +9,7 @@ interface Prop {
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
+  // eslint-disable-next-line no-unused-vars
   onSelect?: (data: ProductItem, vari: IVariation) => unknown
 }
 

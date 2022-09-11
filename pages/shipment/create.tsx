@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, Progress, Spacer, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, Progress, useDisclosure } from "@chakra-ui/react"
 import Navbar from "../../src/components/Navbar"
 import ProductSearchModal from "../../src/components/product/ProductSearchModal"
 import MapProductItem from "../../src/components/shipment/MapProductItem"

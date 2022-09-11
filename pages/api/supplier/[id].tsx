@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { id } = req.query
     
     switch (method) {
-        case 'GET':
+        case 'GET': {
             const data = await prisma.supplier.findFirst({
                 where: {
                     id: Number(id)
@@ -43,28 +43,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
             })
 
-            res.status(200).send(data)
+            return res.status(200).send(data)
+        }
 
-            break
-
-        case 'DELETE':
+        case 'DELETE': {
             await prisma.supplier.delete({
                 where: {
                     id: Number(id)
                 }
             })
 
-            res.status(200).send({
+            return res.status(200).send({
                 message: "ok"
             })
-            break
-
-        case 'PUT':
+            
+        }
+        case 'PUT': {
             await update(req)
 
-            res.status(200).send({
+            return res.status(200).send({
                 message: "ok"
             })
-            break
+            
+        }
     }
 }

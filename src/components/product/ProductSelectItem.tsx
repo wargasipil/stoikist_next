@@ -1,7 +1,7 @@
 import { HStack, VStack, Text, Tag } from "@chakra-ui/react"
 import { Product } from "@prisma/client"
 import { HiDocument } from "react-icons/hi"
-import { ProductItem, IVariation } from '../../client_api/product';
+import { IVariation } from '../../client_api/product'
 
 interface Prop {
   product: Product

@@ -47,13 +47,6 @@ async function createProduct(req: NextApiRequest): Promise<Product> {
   const { body } = req
   const payload = validateCreateProduct.parse(body)
 
-  const categories = await prisma.category.findMany({
-    where: {
-      id: {
-        in: payload.categories
-      }
-    }
-  })
 
   const product = await prisma.product.create({
     data: {
@@ -64,68 +57,6 @@ async function createProduct(req: NextApiRequest): Promise<Product> {
       weight: payload.weight
     }
   })
-
-  const cat_products = await prisma.categoryProduct.createMany({
-    data: categories.map(categ => {
-      return {
-        product_id: product.id,
-        cat_id: categ.id
-      }
-    })
-  })
-
-  if(payload.options.length == 0){
-    const variation = await prisma.variation.create({
-      data: {
-        price: payload.price,
-        product_id: product.id,
-        names: [],
-        values: [],
-        is_default: true
-      }
-    })
-
-    const sku = await prisma.sku.create({
-      data: {
-        id: payload.sku_id,
-        ready_stock: payload.stock,
-        variation_id: variation.id,
-        product_id: product.id
-      }
-    })
-
-  } else {
-    const options = await prisma.productOption.createMany({
-      data: payload.options.map(option => {
-        return {
-          name: option.name,
-          product_id: product.id,
-          options: option.options
-        }
-      })
-    })
-
-    const tasks = payload.variations.map(vari => {
-      return prisma.variation.create({
-        data: {
-          price: vari.price,
-          product_id: product.id,
-          names: vari.names,
-          values: vari.values,
-          is_default: false,
-          sku: {
-            create: {
-              id: vari.sku_id,
-              ready_stock: vari.stock,
-              product_id: product.id,
-            }
-          }
-        }
-      })
-    })
-
-    const variations = await Promise.all(tasks)
-  }
 
   return product
 }
@@ -220,12 +151,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { method, query: rawQuery } = req
 
   switch (method) {
-    case 'POST':
+    case 'POST': {
       const product = await createProduct(req)
 
-      res.status(200).send(product)
-      break
-    case 'GET':
+      return res.status(200).send(product)
+    }
+    case 'GET': {
       const query = validateQuery.parse(rawQuery)
 
       const dbquery = {
@@ -280,8 +211,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }
       }
 
-      res.status(200).send(resdata)
+      return res.status(200).send(resdata)
 
-      break
+    }
   }
 }

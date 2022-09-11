@@ -1,7 +1,23 @@
 {
-  "extends": "next/core-web-vitals",
-  "plugins": [
-    "eslint-plugin-react",
-    "eslint-plugin-react-hooks"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "next"
+  
+  ],
+  "rules": {
+    "no-unused-vars": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
   ]
+
 }

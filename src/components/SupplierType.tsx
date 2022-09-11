@@ -1,4 +1,4 @@
-import { Button, IconButton, Input, InputGroup, InputRightElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SelectProps, useDisclosure } from "@chakra-ui/react"
+import { Button, IconButton, Input, InputGroup, InputRightElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Select, SelectProps, useDisclosure } from "@chakra-ui/react"
 import { atom, useRecoilState } from 'recoil';
 import { useEffect, useState, useCallback } from 'react';
 import { MdAdd, MdDelete } from "react-icons/md";
@@ -41,7 +41,7 @@ const supplierTypeState = atom<SupplierType[]>({
   default: []
 })
 
-export function SupplierType(){
+export function SupplierTypeModal(){
   const [ supType, setSupType ] = useRecoilState(supplierTypeState)
   const [ newSup, setNewSup ] = useState<string>('')
   const { isOpen, onOpen, onClose } = useDisclosure()

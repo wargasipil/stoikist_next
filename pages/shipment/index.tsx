@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Progress, Spinner, Table, Tag, Tbody, Td, Tfoot, Th, Thead, Tr } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, Progress, Table, Tag, Tbody, Td, Tfoot, Th, Thead, Tr } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import MyPagination from "../../src/components/MyPagination"
 import Navbar from "../../src/components/Navbar"

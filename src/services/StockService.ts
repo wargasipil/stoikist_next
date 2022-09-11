@@ -1,5 +1,3 @@
-
-
-async function updateStock(){
-
+export default function Create(){
+  console.log('not implemented')
 }

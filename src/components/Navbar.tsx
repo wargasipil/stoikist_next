@@ -1,4 +1,4 @@
-import { useColorModeValue, useDisclosure, chakra, Flex, HStack, IconButton, VStack, CloseButton, Button, VisuallyHidden, InputGroup, InputLeftElement, Input, Avatar, Box, Progress } from "@chakra-ui/react"
+import { useColorModeValue, useDisclosure, chakra, Flex, HStack, IconButton, VStack, CloseButton, Button, VisuallyHidden, Avatar, Box } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import React from "react"
 import { AiFillBell, AiFillHome, AiFillTag, AiOutlineMenu, AiFillSetting } from "react-icons/ai"
@@ -8,6 +8,7 @@ import { MdLocalShipping } from "react-icons/md"
 import { AlertNotif } from "./AlertNotif"
 
 interface MenuItem {
+    // eslint-disable-next-line no-undef
     icon: JSX.Element
     path: string
     name: string
@@ -68,7 +69,6 @@ export default function Navbar(){
 
     const router = useRouter()
     
-    const href =''
 
     return (
         <chakra.header

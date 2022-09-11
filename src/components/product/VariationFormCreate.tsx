@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, FormErrorMessage, Text, IconButton, Input, InputGroup, InputRightAddon, Tag, TagLabel, SimpleGrid, InputLeftAddon, Button, InputRightElement, TagRightIcon } from '@chakra-ui/react'
+import { Box, Flex, FormControl, FormErrorMessage, IconButton, Input, InputGroup, InputRightAddon, Tag, TagLabel, InputLeftAddon, Button, InputRightElement, TagRightIcon } from '@chakra-ui/react'
 import { useState, useCallback, useEffect } from 'react'
 import { AiOutlineCheck, AiOutlineClose, AiTwotoneDelete } from 'react-icons/ai'
 import { GrAddCircle } from 'react-icons/gr'
@@ -25,6 +25,7 @@ function allPossibleCases(arr: string[][]): string[][] {
 
 
 export function OptionForm (prop: {
+  // eslint-disable-next-line no-unused-vars
   onChange: (payload: OptionCreatePayload) => unknown
   onDelete: () => unknown
   value: OptionCreatePayload
@@ -144,6 +145,7 @@ export function OptionForm (prop: {
 
 export function VariationItem (prop: {
   value: VariationCreatePayload
+  // eslint-disable-next-line no-unused-vars
   onChange: (value: VariationCreatePayload) => unknown
 }) {
 

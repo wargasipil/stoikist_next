@@ -1,4 +1,4 @@
-import { atom, selector, selectorFamily, useRecoilState } from 'recoil';
+import { atom, selectorFamily, useRecoilState } from 'recoil'
 import { IVariation, ProductItem } from "../client_api/product"
 import { SupplierListItem } from "../client_api/supplier"
 import { useCallback } from 'react';
@@ -46,26 +46,12 @@ interface StateHandler {
 
 
 export function useCreateShipmentState(): StateHandler {
-  const [ items, setItems] = useRecoilState(createShipmentState)
+  const [ , setItems ] = useRecoilState(createShipmentState)
   
   const clear = useCallback(() => {
     setItems([])
   }, [setItems])
 
-  const setStock = useCallback((stock: number, index: number) => {
-    setItems(items => {
-      return items.map((item, ind) => {
-        if(ind == index){
-          return {
-            ...item,
-            stock
-          }
-        }
-        return item
-      })
-    })
-  }, [setItems])
-  
   return {
     clear
   }

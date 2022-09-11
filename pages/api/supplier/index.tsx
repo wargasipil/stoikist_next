@@ -45,15 +45,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { method, body } = req
 
     switch (method) {
-        case 'POST':
+        case 'POST': {
             const payload = isSupplierPayload.parse(body)
             const data = await prisma.supplier.create({
                 data: payload
             })
 
-            res.status(200).send(data)
-            break
-        case 'GET':
+            return res.status(200).send(data)
+        }    
+        case 'GET': {
             const query = isQuery.parse(req.query)
 
 
@@ -86,7 +86,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
             }
 
-            res.status(200).send(resdata)
-            break
+            return res.status(200).send(resdata)
+        }
     }
 }
