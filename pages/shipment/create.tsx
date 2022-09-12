@@ -60,9 +60,10 @@ export default function Shipment () {
     })
   }, [setItems])
 
-  const shipmentMutation = useMutation(() => {
+  const shipmentMutation = useMutation(async () => {
     if(items.length == 0){
       setAlert("error", "Product kosong", "Tidak ada satupun Produk yang dipilih")
+      return 
     }
 
     const dataItems: StockItemPayload[] = items.map((item): StockItemPayload => {
@@ -81,20 +82,16 @@ export default function Shipment () {
       setAlert('error', 'Tidak Lengkap', 'Supplier Item Tidak Lengkap')
     }
 
-    const prom = postShipment({
-      items: dataItems
-    })
-    
-    prom.then(() =>{
+    try {
+      await postShipment({
+        items: dataItems
+      })
       setItems([])
       router.push('/shipment')
       setAlert('success', 'Success', 'Create Shipment Baru')
-
-    }).catch(() => {
+    } catch (e){
       setAlert('error', 'Gagal Create', 'Gagal create Shipment Baru')
-    })
-    
-    return prom
+    }
   })
 
   return <Box>

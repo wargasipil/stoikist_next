@@ -2,8 +2,8 @@ import { Box, Button, Heading } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import { AlertNotif } from "../../src/components/AlertNotif"
 import Navbar from "../../src/components/Navbar"
-import ConfirmModal from '../../src/components/ConfirmModal';
-import ShipmentTable from "../../src/components/shipment/ShipmentTable";
+import ConfirmModal from '../../src/components/ConfirmModal'
+import ShipmentTable from "../../src/components/shipment/ShipmentTable"
 
 
 
@@ -27,8 +27,7 @@ export default function Shipment () {
         }}>Create Shipment</Button>
       </Box>
       <ShipmentTable></ShipmentTable>  
-    <ConfirmModal></ConfirmModal>
-    <AlertNotif></AlertNotif>
+      <ConfirmModal></ConfirmModal>
     </Box>
   </Box>
 
