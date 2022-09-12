@@ -1,5 +1,4 @@
-import {NextApiResponse, NextApiRequest } from 'next';
 
-export default function GetItem(req: NextApiRequest, res: NextApiResponse) {
-    
+export default function GetItem() {
+    console.log("asdasda")
 }

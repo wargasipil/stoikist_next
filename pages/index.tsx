@@ -1,5 +1,5 @@
 import { PhoneIcon } from '@chakra-ui/icons'
-import { Box, HStack, StatNumber, VStack, Text } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text } from '@chakra-ui/react';
 import Navbar from '../src/components/Navbar'
 
 interface Prop {
@@ -16,7 +16,7 @@ export default function Home(props: Prop){
   
   <HStack>
     {
-      [0,1,2].map(i => {
+      ["teal.500", "red.500", "yellow.500", "blue.500"].map(i => {
         return <HStack
         key={i}
         boxShadow="md"
@@ -24,13 +24,13 @@ export default function Home(props: Prop){
         rounded="lg"
       >
         <PhoneIcon
-          bg="teal"
+          bg={i}
           p="2"
           rounded="lg"
           color="white"
           boxSize="12"/>
         
-        <VStack>
+        <VStack pl="3">
           <Text fontWeight="350">Collected Fees</Text>
           <Text fontWeight="600">0.00</Text>
         </VStack>
