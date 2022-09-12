@@ -2,8 +2,8 @@
 import { HStack, Tag, IconButton, Text } from "@chakra-ui/react"
 import { AiOutlineShoppingCart, AiOutlineDelete } from "react-icons/ai"
 import StockInput from "./StockInput"
-import { CreateShipmentItem, createShipmentState, useCreateShipmentState, createShipmentItemSelector } from '../../states/create-shipment';
-import { useSetRecoilState, useRecoilValue, selectorFamily, useRecoilState } from 'recoil';
+import { createShipmentItemSelector } from '../../states/CreateShipment';
+import { useRecoilState } from 'recoil';
 import { useCallback } from 'react'
 
 interface ReSupplierItemProp {

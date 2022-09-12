@@ -1,10 +1,9 @@
-import { Box, FormControl, Input, InputGroup, InputRightElement, IconButton, Breadcrumb, BreadcrumbItem, BreadcrumbLink, List, ListItem, useDisclosure, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, FormLabel, Divider, Text, ListIcon, Select, VStack, HStack } from '@chakra-ui/react';
-import { MdAdd, MdArrowForwardIos, MdDelete } from 'react-icons/md'
+import { Box, FormControl, Input, InputGroup, InputRightElement, IconButton, useDisclosure, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Select, HStack } from '@chakra-ui/react';
+import { MdAdd, MdDelete } from 'react-icons/md'
 import { AiTwotoneEdit } from 'react-icons/ai'
-import Navbar from "./Navbar"
 import { CreateCategoryPayload } from '../../payload/category'
 import { useState, useEffect, useCallback } from 'react'
-import { atom, useRecoilState, useRecoilValue } from 'recoil'
+import { atom, useRecoilState } from 'recoil'
 
 
 interface Category {

@@ -1,13 +1,13 @@
-import { Prisma, PrismaClient, Restock, RestockItem } from "@prisma/client"
+import { Prisma, Restock, RestockItem } from "@prisma/client"
 import { z } from "zod"
 import { stockOngoingToReady, updateOngoingStockSku } from "./SkuRepo"
-import { ongoingToReadyStockSupplier, updateOngoingStockSupplier } from "./SupplierRepo"
+import { updateOngoingStockSupplier } from "./SupplierRepo"
 
 interface RestockShipment extends Restock {
   items: RestockItem[]
 }
 
-export async function getShipment(prisma: PrismaClient, id: number): Promise<RestockShipment> {
+export async function getShipment(prisma: Prisma.TransactionClient, id: number): Promise<RestockShipment> {
   const restock = await prisma.restock.findFirst({
     where: {
       id
@@ -32,11 +32,11 @@ export async function getShipment(prisma: PrismaClient, id: number): Promise<Res
   })
   
   // kodingan gebleg
-  return restock as any 
+  return restock as RestockShipment
 }
 
 
-export async function setShipmentCompleted(prisma: PrismaClient, id: number){
+export async function setShipmentCompleted(prisma: Prisma.TransactionClient, id: number){
   const restock = await getShipment(prisma, id)
 
   // set restock to completed

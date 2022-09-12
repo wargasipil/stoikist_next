@@ -1,10 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  eslint: {
-    dirs: ['pages', 'components', 'src']
-  }
+  swcMinify: true
 }
 
 module.exports = nextConfig

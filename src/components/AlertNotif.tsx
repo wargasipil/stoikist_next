@@ -22,7 +22,7 @@ export const alertState = atom<AlertState>({
 let showtime: NodeJS.Timeout | null = null
 
 export function useAlert() {
-  const [ data, setData ] = useRecoilState(alertState)
+  const [ , setData ] = useRecoilState(alertState)
   
 
   const showAlert = (status: AlertStatus = "info", title: string, desc?: string) => {
@@ -184,40 +184,8 @@ function WarnContent(prop: Prop){
   </>
 }
 
-function LoadingContent(prop: Prop){
-  return <>
-    <Flex justifyContent="center" alignItems="center" w={12} bg="yellow.500">
-      <Icon as={IoMdAlert} color="white" boxSize={6} />
-    </Flex>
-
-    <Box mx={-3} py={2} px={4}>
-      <Box mx={3}>
-        <chakra.span
-          color="yellow.400"
-          _dark={{
-            color: "yellow.300",
-          }}
-          fontWeight="bold"
-        >
-          { prop.title }
-        </chakra.span>
-        <chakra.p
-          color="gray.600"
-          _dark={{
-            color: "gray.200",
-          }}
-          fontSize="sm"
-        >
-          { prop.desc }
-        </chakra.p>
-      </Box>
-    </Box>
-  
-  </>
-}
-
 export function AlertNotif(){
-  const [data, setData] = useRecoilState(alertState)
+  const [data, ] = useRecoilState(alertState)
 
   return <ScaleFade initialScale={0.9} in={data.show}>
     <Flex

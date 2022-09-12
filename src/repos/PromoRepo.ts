@@ -56,7 +56,7 @@ export async function deletePromo(prisma: Prisma.TransactionClient, id: number){
   })
 }
 
-async function checkExpiredPromo(){
+export async function checkExpiredPromo(){
   throw new Error('Not Implemented')
 }
 
@@ -123,7 +123,7 @@ export async function usingPromo(prisma: Prisma.TransactionClient, code: string,
 export function calculatePromo(promo: Promo, total: number): number {
   
   
-  let min_total: number = 0
+  let min_total = 0
   if(promo.type === 'FIXED'){
     min_total = promo.value
   }

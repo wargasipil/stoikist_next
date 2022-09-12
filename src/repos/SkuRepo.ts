@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, Sku, Variation } from "@prisma/client"
+import { Prisma, Sku, Variation } from "@prisma/client"
 
 export interface SkuError {
   code: 'SKU_ERROR'
@@ -38,7 +38,7 @@ export async function getSku(prisma: Prisma.TransactionClient, sku_id: string): 
   }
 }
 
-export async function stockOngoingToReady(prisma: PrismaClient, sku_id: string, count: number) {
+export async function stockOngoingToReady(prisma: Prisma.TransactionClient, sku_id: string, count: number) {
     await prisma.sku.update({
       where: {
         id: sku_id

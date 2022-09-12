@@ -1,7 +1,5 @@
-import { Box, chakra, Divider, Flex, IconButton, Spacer, Spinner, Table, Tbody, Tfoot, Th, Thead, Tr } from "@chakra-ui/react"
-import { Product, Category } from "@prisma/client"
+import { Box, chakra, Flex, IconButton, Spinner, Table, Tbody, Tfoot, Th, Thead, Tr } from "@chakra-ui/react"
 import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
 import { useRouter } from "next/router"
 import MyPagination from "../../src/components/MyPagination"
 import Navbar from "../../src/components/Navbar"
@@ -137,7 +135,7 @@ export default function ProductPage () {
             }
             
             { !isLoading &&
-              data?.items.flatMap((item, index) => {
+              data?.items.flatMap((item) => {
 
                 if(item.variation.length > 0){
                   const spleng = item.variation.length

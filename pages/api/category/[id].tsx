@@ -4,7 +4,7 @@ import { prisma } from "../../../src/helpers/database"
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { method, body } = req
+    const { method } = req
     const { id } = req.query
 
     switch (method) {

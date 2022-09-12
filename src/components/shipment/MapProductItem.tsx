@@ -1,10 +1,10 @@
 import { Box, Button, HStack } from "@chakra-ui/react"
-import { AiOutlineDelete, AiOutlineArrowRight } from "react-icons/ai"
+import { AiOutlineArrowRight } from "react-icons/ai"
 import { BsArrowRight } from "react-icons/bs"
 import ReProductItem, { ReProductItemProp } from "./ReProductItem"
 import ReSupplierItem from "./ReqSupplierItem"
 import { useRecoilValue } from 'recoil';
-import { createShipmentItemSelector } from '../../states/create-shipment'
+import { createShipmentItemSelector } from '../../states/CreateShipment'
 
 
 interface MapProductItemProp extends ReProductItemProp {

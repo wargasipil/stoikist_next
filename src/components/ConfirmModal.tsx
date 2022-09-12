@@ -1,5 +1,6 @@
 import { AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, Button } from "@chakra-ui/react"
-import { useCallback, useRef, MutableRefObject } from "react"
+import { UseMutationResult } from "@tanstack/react-query"
+import { useCallback, useRef, MutableRefObject } from 'react'
 import { atom, useRecoilState, useRecoilValue } from "recoil"
 
 const showState = atom<boolean>({
@@ -7,9 +8,9 @@ const showState = atom<boolean>({
   default: false
 })
 
-const funcState = atom<(...params: any) => any>({
-  key: 'funcState',
-  default: () => {}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const funcState = atom<UseMutationResult<void, unknown, void, unknown>>({
+  key: 'funcState'
 })
 
 const dataState = atom<{
@@ -25,7 +26,8 @@ const dataState = atom<{
   
 })
 
-export function useConfirmModal(func?: () => any, title?: string, desc?: string, dangerStyle?: boolean) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useConfirmModal(func?: UseMutationResult<void, unknown, void, unknown>, title?: string, desc?: string, dangerStyle?: boolean) {
   const [ , setFunc ] = useRecoilState(funcState)
   const [ , setShow ] = useRecoilState(showState)
   const [ , setData ] = useRecoilState(dataState)
@@ -37,6 +39,7 @@ export function useConfirmModal(func?: () => any, title?: string, desc?: string,
       dangerStyle
     })
     setShow(true)
+  
     if(func){
       setFunc(() => func)
     }
@@ -46,21 +49,28 @@ export function useConfirmModal(func?: () => any, title?: string, desc?: string,
   return decorateFunc
 }
 
+
+
+
+
 export default function ConfirmModal(){
   const [ isOpen, setShow ] = useRecoilState(showState)
   const func = useRecoilValue(funcState)
   const data = useRecoilValue(dataState)
   
   const onClose = useCallback(() => {
-    setShow(false)
-  }, [setShow])
+    if(!func.isLoading){
+      setShow(false)
+    }
+    
+  }, [setShow, func])
   
   const cancelRef = useRef() as MutableRefObject<HTMLButtonElement>
 
-  const onAction = useCallback(() => {
-    func()
+  const onAction = useCallback(async () => {
     setShow(false)
-
+    await func.mutate()
+    
   }, [func, setShow])
 
   return <AlertDialog
@@ -82,7 +92,7 @@ export default function ConfirmModal(){
         <Button size="sm" ref={cancelRef} onClick={onClose}>
           Cancel
         </Button>
-        <Button size="sm" colorScheme={ data.dangerStyle ? 'red': 'teal'} ml={3} onClick={onAction}>
+        <Button size="sm" colorScheme={ data.dangerStyle ? 'red': 'teal'} ml={3} onClick={onAction} isLoading={func.isLoading}>
           Confirm
         </Button>
       </AlertDialogFooter>

@@ -10,7 +10,7 @@ import { useRouter } from "next/router"
 import { useAlert } from "../../src/components/AlertNotif"
 import { postShipment } from "../../src/client_api/shipment"
 import { StockItemPayload } from '../../src/repos/ShipmentRepo'
-import { createShipmentItemSelector, createShipmentState } from '../../src/states/create-shipment'
+import { createShipmentItemSelector, createShipmentState } from '../../src/states/CreateShipment'
 import { useSetRecoilState, useRecoilState } from 'recoil'
 import { useMutation } from "@tanstack/react-query"
 
