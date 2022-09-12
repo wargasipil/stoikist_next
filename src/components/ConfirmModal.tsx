@@ -9,8 +9,9 @@ const showState = atom<boolean>({
 })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const funcState = atom<UseMutationResult<void, unknown, void, unknown>>({
-  key: 'funcState'
+const funcState = atom<UseMutationResult<void, unknown, void, unknown> | null>({
+  key: 'funcState',
+  default: null
 })
 
 const dataState = atom<{
@@ -59,7 +60,8 @@ export default function ConfirmModal(){
   const data = useRecoilValue(dataState)
   
   const onClose = useCallback(() => {
-    if(!func.isLoading){
+
+    if(!func?.isLoading){
       setShow(false)
     }
     
@@ -69,7 +71,7 @@ export default function ConfirmModal(){
 
   const onAction = useCallback(async () => {
     setShow(false)
-    await func.mutate()
+    await func?.mutate()
     
   }, [func, setShow])
 
@@ -92,7 +94,7 @@ export default function ConfirmModal(){
         <Button size="sm" ref={cancelRef} onClick={onClose}>
           Cancel
         </Button>
-        <Button size="sm" colorScheme={ data.dangerStyle ? 'red': 'teal'} ml={3} onClick={onAction} isLoading={func.isLoading}>
+        <Button size="sm" colorScheme={ data.dangerStyle ? 'red': 'teal'} ml={3} onClick={onAction} isLoading={func?.isLoading}>
           Confirm
         </Button>
       </AlertDialogFooter>

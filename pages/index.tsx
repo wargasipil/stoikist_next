@@ -1,5 +1,5 @@
 import { PhoneIcon } from '@chakra-ui/icons'
-import { Box, HStack, VStack, Text } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text } from '@chakra-ui/react'
 import Navbar from '../src/components/Navbar'
 
 interface Prop {
