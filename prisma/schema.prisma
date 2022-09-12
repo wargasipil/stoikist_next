@@ -68,17 +68,18 @@ model Category {
 }
 
 model Product {
-  id                Int      @id @default(autoincrement())
-  rack_name         String
-  marketing_status  String
-  hscode            String
-  weight            Int
-  name              String
-  sku               Sku[]
-  options           ProductOption[]
-  variation         Variation[]
-  order_items       OrderItem[]
-  categories        CategoryProduct[]
+  id                  Int                   @id @default(autoincrement())
+  rack_name           String
+  marketing_status    String
+  hscode              String
+  weight              Int
+  name                String
+  sku                 Sku[]
+  options             ProductOption[]
+  variation           Variation[]
+  order_items         OrderItem[]
+  categories          CategoryProduct[]
+  product_resource    ProductResource[]
 }
 
 model CategoryProduct {
@@ -102,14 +103,14 @@ model ProductOption {
 }
 
 model Sku {
-  id                  String      @id
-  ready_stock         Int         @default(0)
-  ongoing_stock       Int         @default(0)
-  variation_id        Int         @unique
+  id                  String        @id
+  ready_stock         Int           @default(0)
+  ongoing_stock       Int           @default(0)
+  variation_id        Int           @unique
   product_id          Int
   last_restock        DateTime?
-  variation           Variation   @relation(fields: [variation_id], references: [id])
-  product             Product     @relation(fields: [product_id], references: [id])
+  variation           Variation     @relation(fields: [variation_id], references: [id])
+  product             Product       @relation(fields: [product_id], references: [id])
   restock_items       RestockItem[]
 
 }
@@ -229,7 +230,7 @@ model Restock {
 }
 
 model RestockItem {
-  restock_id         Int       
+  restock_id          Int       
   supplier_id         Int
   sku_id              String
   variation_id        Int
@@ -240,6 +241,23 @@ model RestockItem {
   variation           Variation @relation(fields: [variation_id], references: [id])
 
   @@id([restock_id, sku_id])
+}
+
+model ProductResource {
+  resource_id     Int
+  product_id      Int
+
+  resource        Resource    @relation(fields: [resource_id], references: [id])
+  product         Product     @relation(fields: [product_id], references: [id])
+  
+
+  @@id([resource_id, product_id])
+}
+
+model Resource {
+  id                  Int       @id @default(autoincrement())
+  data                Bytes     @db.ByteA
+  product_resource    ProductResource[]
 }
 
 
