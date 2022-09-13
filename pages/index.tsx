@@ -11,18 +11,18 @@ export default function Home(props: Prop){
 
   return <Box>
   <Navbar></Navbar>
-  <Box pt="100">
+  <Box pt="55">
   
   
   <HStack>
     {
       ["teal.500", "red.500", "yellow.500", "blue.500"].map(i => {
         return <HStack
-        key={i}
-        boxShadow="md"
-        p="3"
-        rounded="lg"
-      >
+          key={i}
+          boxShadow="md"
+          p="3"
+          rounded="lg"
+        >
         <PhoneIcon
           bg={i}
           p="2"
