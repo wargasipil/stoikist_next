@@ -33,10 +33,14 @@ function PreviewItem(prop: { file: File, onDelete: ()=>unknown }){
   </Box>
 }
 
+interface Prop {
+  limit: number
+  onChange: (files: File[]) => unknown
+}
 
-export default function ImageUpload(prop: { limit: number}) {
+export default function ImageUpload(prop: Prop) {
 
-  const { limit } = prop
+  const { limit, onChange } = prop
 
   const [files, setFiles] = useState<File[]>([])
   const {getRootProps, getInputProps} = useDropzone({
@@ -55,6 +59,10 @@ export default function ImageUpload(prop: { limit: number}) {
       return [...files.filter(ff => ff != file)]
     })
   }, [setFiles])
+
+  useEffect(() => {
+    onChange(files)
+  }, [files, onChange])
 
   return (
     <HStack>

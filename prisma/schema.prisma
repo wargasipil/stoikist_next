@@ -256,7 +256,7 @@ model ProductResource {
 
 model Resource {
   id                  Int       @id @default(autoincrement())
-  data                Bytes     @db.ByteA
+  path                String    
   product_resource    ProductResource[]
 }
 

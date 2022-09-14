@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon, Input, InputGroup, InputLeftElement, InputRightElement, Select, Spacer, Tab, TabList, Tabs } from "@chakra-ui/react"
+import { Box, Button, Flex, FormControl, Icon, Input, InputGroup, Text, InputRightElement, Select, Spacer, Tab, TabList, Tabs, FormLabel } from '@chakra-ui/react';
 import Navbar from "../../src/components/Navbar"
 import StatData from "../../src/components/StatData"
 import {BiPackage} from "react-icons/bi"
@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import MyPagination from "../../src/components/MyPagination"
 import OrderListItem from "../../src/components/order/OrderListItem"
 import { AiOutlineSearch } from "react-icons/ai"
+import DatePicker from "../../src/components/DatePicker"
 
 
 
@@ -53,33 +54,46 @@ export default function Order () {
           router.push('/order/create')
         }}>Create Order</Button>
       </Flex>
-      <Flex mt="10" px="7">
+      <Flex mt="10">
         
-
-        
-        datepicker
-        
-        <InputGroup size="sm">
-          <Select size="sm" placeholder="search type" width="150">
-            <option>name product</option>
-            <option>customer</option>
-            <option>invoice</option>
-          </Select>
-          
-          <Input size="sm" />
-          <InputRightElement>
-            <Icon 
-              as={AiOutlineSearch}
+        <FormControl mx="5">
+          <FormLabel>Filter Date</FormLabel>
+          <Flex>
+            <DatePicker
+              onChange={() => console.log('asdasd')}
+              selectedDate={new Date()}
             />
-          </InputRightElement>
-        </InputGroup>
-
-        
-
-        <Spacer />
-
+            <Text mx="2"> to </Text>
+            <DatePicker
+              onChange={() => console.log('asdasd')}
+              selectedDate={new Date()}
+            />
+          </Flex>
+          
+        </FormControl>
+        <FormControl mx="5">
+          <FormLabel>
+            Search
+          </FormLabel>
+          <InputGroup size="sm">
+            <Select size="sm" placeholder="search type" width="150">
+              <option>name product</option>
+              <option>customer</option>
+              <option>invoice</option>
+            </Select>
+            
+            <Input size="sm" />
+            <InputRightElement>
+              <Icon 
+                as={AiOutlineSearch}
+              />
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
+      </Flex>
+      <Flex p="5">
         <Button colorScheme="blue" size="sm">cari</Button>
-        <Button variant="outline" size="sm">reset</Button>
+        <Button mx="5" variant="outline" size="sm">reset</Button>
       </Flex>
 
       <Flex
