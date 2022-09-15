@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, FormControl, FormLabel } from '@chakra-ui/react'
 import Navbar from "../src/components/Navbar"
 
 
@@ -22,7 +22,11 @@ export default function Test() {
   return <Box>
     <Navbar></Navbar>
     <Box pt="55">
-     
+      <Flex>
+        <FormControl>
+          <FormLabel></FormLabel>
+        </FormControl>
+      </Flex>
     </Box>
   </Box>
 }

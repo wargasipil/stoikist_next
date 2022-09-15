@@ -1,4 +1,4 @@
-import {Box,  Heading, FormControl, FormLabel, InputGroup, Input, Flex, Button, FormErrorMessage, Spacer } from "@chakra-ui/react"
+import {Box,  Heading, FormControl, FormLabel, InputGroup, Input, Flex, Button, FormErrorMessage, Spacer, InputRightAddon } from "@chakra-ui/react"
 import CategoryGroup from "../../src/components/CategoryGroup"
 import Navbar from "../../src/components/Navbar"
 import VariationFormCreate, { optionCreateState, variationState } from "../../src/components/product/VariationFormCreate"
@@ -77,7 +77,8 @@ export default function ProductCreate(){
     
     <Box pt="55">
       <Heading ml="6" mt="3">Create Product</Heading>
-      <Flex
+      
+    <Flex
       minWidth='max-content'
       mt="6"
     >
@@ -101,7 +102,7 @@ export default function ProductCreate(){
 
         
         
-        <FormControl ml="2">
+        <FormControl ml="2" my="3">
           <FormLabel>
             Marketing Status :
           </FormLabel>
@@ -116,7 +117,9 @@ export default function ProductCreate(){
           <FormErrorMessage>
           </FormErrorMessage>
         </FormControl>
-        <FormControl ml="2">
+
+
+        <FormControl ml="2" my="3">
           <FormLabel>
             Hscode :
           </FormLabel>
@@ -132,7 +135,7 @@ export default function ProductCreate(){
           </FormErrorMessage>
         </FormControl>
         
-        <FormControl ml="2" isRequired isInvalid={weight > 0 ? false: true}>
+        <FormControl ml="2" my="3" isRequired isInvalid={weight > 0 ? false: true}>
           <FormLabel>
             Weight :
           </FormLabel>
@@ -144,6 +147,7 @@ export default function ProductCreate(){
               size="sm"
               placeholder="weight"
             />
+            <InputRightAddon>Gram</InputRightAddon>
           </InputGroup>
           <FormErrorMessage>
             Berat Harus Diisi
@@ -151,7 +155,7 @@ export default function ProductCreate(){
         </FormControl>
 
         { notHaveVariation &&
-          <FormControl ml="2">
+          <FormControl ml="2" my="3" isRequired isInvalid={price > 0 ? false: true}>
             <FormLabel>
               Price :
             </FormLabel>
@@ -165,12 +169,13 @@ export default function ProductCreate(){
               />
             </InputGroup>
             <FormErrorMessage>
+              Harga Harus Diisi.
             </FormErrorMessage>
           </FormControl>
         }
 
         { notHaveVariation &&
-          <FormControl ml="2">
+          <FormControl ml="2" my="3" isRequired isInvalid={stock > 0 ? false: true}>
             <FormLabel>
               Stock :
             </FormLabel>
@@ -184,12 +189,13 @@ export default function ProductCreate(){
               />
             </InputGroup>
             <FormErrorMessage>
+              Stock Harus Diisi
             </FormErrorMessage>
           </FormControl>
         }
 
         { notHaveVariation &&
-          <FormControl ml="2">
+          <FormControl ml="2" my="3" isRequired isInvalid={sku_id.length > 0 ? false: true}>
             <FormLabel>
               Sku :
             </FormLabel>
@@ -202,6 +208,7 @@ export default function ProductCreate(){
               />
             </InputGroup>
             <FormErrorMessage>
+              Sku Harus Diisi
             </FormErrorMessage>
           </FormControl>
         }
@@ -213,7 +220,7 @@ export default function ProductCreate(){
       
         <ImageUploader />
 
-        <FormControl ml="2">
+        <FormControl ml="2" my="3">
           <FormLabel>
             Rack Name :
           </FormLabel>

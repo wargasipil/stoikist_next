@@ -1,4 +1,4 @@
-import { FormControl, FormErrorMessage, FormLabel, InputGroup } from "@chakra-ui/react";
+import { FormControl, FormErrorMessage, FormLabel, InputGroup, Text } from "@chakra-ui/react";
 import ImageUpload from "../ImageUpload"
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useMutation } from '@tanstack/react-query';
@@ -47,10 +47,10 @@ export function useImageUploader(){
 }
 
 export default function ImageUploader(){
-  const [ , setFiles ]= useRecoilState(productImageUploaderState)
+  const [ files, setFiles ]= useRecoilState(productImageUploaderState)
   const isInvalid = useRecoilValue(imageUploaderInvalidState)
 
-  return <FormControl ml="2" mb="6" isInvalid={isInvalid}>
+  return <FormControl ml="2" mb="6" isInvalid={isInvalid || files.length === 0 }>
     <FormLabel>
       Images :
     </FormLabel>
@@ -60,7 +60,12 @@ export default function ImageUploader(){
         limit={4} />
     </InputGroup>
     <FormErrorMessage>
-      Upload Image Error
+      { isInvalid &&
+        <Text>Upload Image Error</Text>
+      }
+      { files.length === 0 &&
+        <Text>Image Kosong.</Text>
+      }
     </FormErrorMessage>
   </FormControl>
 }

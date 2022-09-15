@@ -91,7 +91,8 @@ function createListQuery(query: ProductListQuery){
   if(query.name){
     dbquery.push({
       name: {
-        search: query.name
+        contains: query.name,
+        mode: 'insensitive'
       }
     })
   }

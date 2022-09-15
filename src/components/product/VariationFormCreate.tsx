@@ -75,33 +75,34 @@ export function OptionForm (prop: {
   }, [setOptname, setOptions, optname, onChange, name, options])
 
   return <Box>
-    <FormControl size="sm" mt="2">
-    <InputGroup size="sm">
-      <Input
-        value={name}
-        onBlur={change}
-        onChange={e => setName(e.target.value)}
-        size="sm"
-        placeholder="variation name"
-      />
-      
-      <FormErrorMessage>
-      </FormErrorMessage>
-
-      <InputRightElement>
-        <IconButton
-          onClick={onDelete}
-          colorScheme='red'
+    <FormControl size="sm" mt="2" isInvalid={name.length ? false: true}>
+      <InputGroup size="sm">
+        <Input
+          value={name}
+          onBlur={change}
+          onChange={e => setName(e.target.value)}
           size="sm"
-          variant="solid"
-          aria-label="delete option"
-          icon={<AiTwotoneDelete />}/>
-      </InputRightElement>
-    </InputGroup>
+          placeholder="variation name"
+        />
+        
+        <InputRightElement>
+          <IconButton
+            onClick={onDelete}
+            colorScheme='red'
+            size="sm"
+            variant="solid"
+            aria-label="delete option"
+            icon={<AiTwotoneDelete />}/>
+        </InputRightElement>
+      </InputGroup>
+
+      <FormErrorMessage>
+        Nama Variasi Belum Diisi
+      </FormErrorMessage>
     </FormControl>
 
     <Flex>
-      <FormControl width="250" mt="2">
+      <FormControl width="250" mt="2" isInvalid={options.length ? false: true}>
         <InputGroup size="sm">
           <Input
             size="sm"
@@ -109,8 +110,6 @@ export function OptionForm (prop: {
             onChange={e => setOptname(e.target.value)}
             placeholder="variation option"
           />
-          <FormErrorMessage>
-          </FormErrorMessage>
           <InputRightAddon>
             <IconButton
               onClick={addOption}
@@ -120,6 +119,9 @@ export function OptionForm (prop: {
               icon={<GrAddCircle />}/>
           </InputRightAddon>
         </InputGroup>
+        <FormErrorMessage>
+          Option Kosong
+        </FormErrorMessage>
       </FormControl>
       
 
@@ -152,7 +154,7 @@ export function VariationItem (prop: {
   const { value, onChange } = prop
 
   return <Flex mt="2">
-    <FormControl>
+    <FormControl isInvalid={value.price ? false: true}>
       <InputGroup size="sm">
         <InputLeftAddon>
           Price :
@@ -169,7 +171,7 @@ export function VariationItem (prop: {
       </FormErrorMessage>
     </FormControl>
 
-    <FormControl ml="2">
+    <FormControl ml="2" isInvalid={value.stock ? false: true}>
       <InputGroup size="sm">
         <InputLeftAddon>
           Stock :
@@ -185,7 +187,7 @@ export function VariationItem (prop: {
       </FormErrorMessage>
     </FormControl>
 
-    <FormControl ml="2">
+    <FormControl ml="2" isInvalid={value.sku_id ? false: true}>
       <InputGroup size="sm">
         <InputLeftAddon>
           Sku Id :
