@@ -80,6 +80,8 @@ model Product {
   order_items         OrderItem[]
   categories          CategoryProduct[]
   product_resource    ProductResource[]
+  deleted             Boolean               @default(false)
+  created             DateTime              @default(now())
 }
 
 model CategoryProduct {
@@ -247,8 +249,8 @@ model ProductResource {
   resource_id     Int
   product_id      Int
 
-  resource        Resource    @relation(fields: [resource_id], references: [id])
-  product         Product     @relation(fields: [product_id], references: [id])
+  resource        Resource    @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+  product         Product     @relation(fields: [product_id], references: [id], onDelete: Cascade)
   
 
   @@id([resource_id, product_id])

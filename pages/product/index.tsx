@@ -7,6 +7,7 @@ import ProductFilter from "../../src/components/product/ProductFilter"
 import { PaginateRes } from '../../src/models/response'
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
 import { ProductItem, IVariation, getProductList } from "../../src/client_api/product"
+import { AlertNotif } from "../../src/components/AlertNotif"
 
 
 interface ProductTrProp { 
@@ -178,7 +179,8 @@ export default function ProductPage () {
           </Tfoot>
         </Table>
       
-      
+    
     </Box>
-	</Box>
+    <AlertNotif />
+  </Box>
 }

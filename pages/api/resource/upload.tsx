@@ -1,17 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import formidable from 'formidable'
+import formidable, { File } from 'formidable'
 import { prisma } from "../../../src/helpers/database"
-import { v4 as uuid4 } from 'uuid'
 import fs from 'fs'
 import { Resource } from "@prisma/client"
 
-async function saveFile(file: formidable.File): Promise<Resource> {
-  console.log(file, 'asdasda')
-  const pathname = `public/resources/${uuid4()}`
+async function saveFile(file: formidable.Files): Promise<Resource> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const image: File = file.image as any
 
-  const data = fs.readFileSync(file.filepath)
+  const pathname = `public/resources/${image.originalFilename}`
+
+  const data = fs.readFileSync(image.filepath)
   fs.writeFileSync(pathname, data)
-  await fs.unlinkSync(file.filepath)
+  fs.unlinkSync(image.filepath)
   
 
   const resource = await prisma.resource.create({
@@ -27,12 +28,17 @@ async function saveFile(file: formidable.File): Promise<Resource> {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const form = new formidable.IncomingForm()
   const files: formidable.Files = await new Promise((resolve, reject) => {
-    form.parse(req, async (err, fields, files) => {
-      console.log(err, fields, files)
+    form.parse(req, (err, fields, files) => {
       if (err) return reject(err)
       resolve(files)
     })
   })
-  const resource = await saveFile(files.file as formidable.File)
+  const resource = await saveFile(files)
   return res.status(201).send(resource)
+}
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
 }

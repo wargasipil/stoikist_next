@@ -1,4 +1,1 @@
-
-export default function tesa(){
-    return ""
-}
+export default {}

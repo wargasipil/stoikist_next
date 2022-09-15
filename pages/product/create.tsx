@@ -1,4 +1,4 @@
-import {Box,  Heading, FormControl, FormLabel, InputGroup, InputLeftAddon, Input, Textarea, FormHelperText, Flex, Avatar, Icon, Button, VisuallyHidden, Divider, Select, Checkbox, RadioGroup, Radio, FormErrorMessage, Grid, Spacer } from "@chakra-ui/react"
+import {Box,  Heading, FormControl, FormLabel, InputGroup, Input, Flex, Button, FormErrorMessage, Spacer } from "@chakra-ui/react"
 import CategoryGroup from "../../src/components/CategoryGroup"
 import Navbar from "../../src/components/Navbar"
 import VariationFormCreate, { optionCreateState, variationState } from "../../src/components/product/VariationFormCreate"
@@ -9,12 +9,17 @@ import { ProductCreatePayload } from "../api/product"
 import { Category, Product } from "@prisma/client"
 import axios from "axios"
 import { useRouter } from "next/router"
+import { useAlert } from "../../src/components/AlertNotif"
+import ImageUploader from "../../src/components/product/ImageUploader"
+import { useImageUploader } from '../../src/components/product/ImageUploader';
 
 async function createProduct(payload: ProductCreatePayload): Promise<Product> {
   const res = await axios.post('/api/product', payload)
 
   return res.data
 }
+
+
 
 export default function ProductCreate(){
   const options = useRecoilValue(optionCreateState)
@@ -33,23 +38,38 @@ export default function ProductCreate(){
   const notHaveVariation = options.length == 0
 
   const router = useRouter()
+  const setAlert = useAlert()
+  const { uploadMutate } = useImageUploader()
+
+
   const addProduct = useCallback(async () => {
+    const image_ids = await uploadMutate.mutateAsync()
+
     const categories = category.map(categ => categ.id)
-    await createProduct({
-      categories,
-      hscode,
-      marketing_status: marketStatus,
-      name,
-      options,
-      price,
-      rack_name: rackName,
-      stock,
-      variations,
-      weight,
-      sku_id
-    })
-    router.push('/product')
-  }, [router, sku_id, category, hscode, marketStatus, name, options, price, rackName, weight, variations, stock])
+    try {
+      await createProduct({
+        image_ids,
+        categories,
+        hscode,
+        marketing_status: marketStatus,
+        name,
+        options,
+        price,
+        rack_name: rackName,
+        stock,
+        variations,
+        weight,
+        sku_id
+      })
+  
+      await router.push('/product')
+      setAlert('success', 'Success', 'Create Prduct Sukses..')
+    } catch (e) {
+      setAlert('error', 'Error', 'Create Product Gagal..')
+    }
+    
+
+  }, [router, sku_id, category, hscode, marketStatus, name, options, price, rackName, weight, variations, stock, uploadMutate, setAlert])
 
 
   return <Box>
@@ -62,7 +82,7 @@ export default function ProductCreate(){
       mt="6"
     >
       <Box width="40%" ml="6">
-        <FormControl ml="2">
+        <FormControl ml="2" my="3" isRequired isInvalid={name.length ? false: true}>
           <FormLabel>
             Name :
           </FormLabel>
@@ -75,6 +95,7 @@ export default function ProductCreate(){
             />
           </InputGroup>
           <FormErrorMessage>
+            Name Harus Diisi
           </FormErrorMessage>
         </FormControl>
 
@@ -110,7 +131,8 @@ export default function ProductCreate(){
           <FormErrorMessage>
           </FormErrorMessage>
         </FormControl>
-        <FormControl ml="2">
+        
+        <FormControl ml="2" isRequired isInvalid={weight > 0 ? false: true}>
           <FormLabel>
             Weight :
           </FormLabel>
@@ -124,6 +146,7 @@ export default function ProductCreate(){
             />
           </InputGroup>
           <FormErrorMessage>
+            Berat Harus Diisi
           </FormErrorMessage>
         </FormControl>
 
@@ -187,6 +210,9 @@ export default function ProductCreate(){
         
       </Box>
       <Box width="40%" ml="6">
+      
+        <ImageUploader />
+
         <FormControl ml="2">
           <FormLabel>
             Rack Name :

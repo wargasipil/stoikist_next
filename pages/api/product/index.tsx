@@ -25,19 +25,20 @@ const validateVariation = z.object({
 export type VariationCreatePayload = z.infer<typeof validateVariation>
 
 const validateCreateProduct = z.object({
-  rack_name: z.string(),
+  image_ids: z.array(z.number()).min(1),
+  rack_name: z.string().min(1),
   marketing_status: z.string(),
   hscode: z.string(),
-  weight: z.number(),
-  name: z.string(),
+  weight: z.number().min(1),
+  name: z.string().min(1),
 
-  price: z.number(),
-  stock: z.number(),
-  sku_id: z.string(),
+  price: z.number().min(1),
+  stock: z.number().min(1),
+  sku_id: z.string().min(1),
 
   options: z.array(validateOption),
   variations: z.array(validateVariation),
-  categories: z.array(z.number())
+  categories: z.array(z.number()).min(1)
 })
 
 
@@ -47,9 +48,19 @@ async function createProduct(req: NextApiRequest): Promise<Product> {
   const { body } = req
   const payload = validateCreateProduct.parse(body)
 
-
+  const resource_ids = payload.image_ids.map(image => {
+    return {
+      resource_id: image
+    }
+  })
+  
   const product = await prisma.product.create({
     data: {
+      product_resource: {
+        createMany: {
+          data: resource_ids
+        }
+      },
       hscode: payload.hscode,
       marketing_status: payload.marketing_status,
       name: payload.name,
@@ -152,9 +163,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   switch (method) {
     case 'POST': {
-      const product = await createProduct(req)
+      try {
+        const product = await createProduct(req)
+        return res.status(200).send(product)
 
-      return res.status(200).send(product)
+      } catch (err) {
+        if(err instanceof z.ZodError){
+          return res.status(422).send(err)
+        }
+        return res.status(500).send({
+          'details': "create product error"
+        })
+      }
+      
     }
     case 'GET': {
       const query = validateQuery.parse(rawQuery)
@@ -167,8 +188,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const qcount = prisma.product.count(dbquery)
 
-      const findQuery = {
+      const qprod = prisma.product.findMany({
         ...dbquery,
+        orderBy: [
+          {
+            created: 'desc'
+          }
+        ],
         include: {
           sku: true,
           categories: {
@@ -196,9 +222,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         skip: (query.page - 1) * query.limit,
         take: query.limit
-      }
-
-      const qprod = prisma.product.findMany(findQuery)
+      })
 
       const [ count, supplier] = await Promise.all([qcount, qprod])
 
