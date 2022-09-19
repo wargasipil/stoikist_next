@@ -1,4 +1,4 @@
-import { Category, Product } from "@prisma/client"
+import { Category, Product, ProductResource, Resource } from "@prisma/client"
 import axios from "axios"
 import { PaginateRes } from "../models/response"
 import { ProductListQuery } from "../../pages/api/product"
@@ -21,6 +21,7 @@ export interface IVariation {
 
 export interface ProductItem extends Product {
   variation: IVariation[]
+  product_resource: (ProductResource & { resource: Resource })[]
   categories: {
     category: Category
   }[]

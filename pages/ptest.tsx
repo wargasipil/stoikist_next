@@ -1,5 +1,8 @@
-import { Box, FormControl, FormLabel } from '@chakra-ui/react'
+import { Box, Button, useDisclosure } from '@chakra-ui/react'
+import { Promo } from '@prisma/client';
+import { useState } from 'react';
 import Navbar from "../src/components/Navbar"
+import PromoSearchModal from '../src/components/promo/PromoSearchModal';
 
 
 
@@ -16,17 +19,21 @@ import Navbar from "../src/components/Navbar"
 
 
 export default function Test() {
-
-
+  const [promo, setPromo] = useState<Promo>()
+  const {isOpen, onClose, onOpen } = useDisclosure()
 
   return <Box>
     <Navbar></Navbar>
     <Box pt="55">
-      <Flex>
-        <FormControl>
-          <FormLabel></FormLabel>
-        </FormControl>
-      </Flex>
+      <Button colorScheme='teal' onClick={onOpen}>
+        add promo
+      </Button>
+      <PromoSearchModal
+        onOpen={onOpen}
+        isOpen={isOpen}
+        onClose={onClose}
+        onSelect={setPromo}
+      />
     </Box>
   </Box>
 }

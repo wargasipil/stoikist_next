@@ -1,4 +1,4 @@
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, IconButton, Link, Table, Tbody, Td, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react"
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, IconButton, Link, Table, Tbody, Td, Th, Thead, Tr, useDisclosure, ButtonGroup } from '@chakra-ui/react';
 import axios from "axios"
 import useSWR from "swr"
 import MyPagination from "../../src/components/MyPagination"
@@ -84,12 +84,15 @@ export default function SupplierPage () {
             <Td isNumeric>{item.ready_stock}</Td>
             <Td>{item.note}</Td>
             <Td align="right">
-              <IconButton 
-                onClick={() => router.push(`/supplier/update/${item.id}`)}
-                size="sm" aria-label='edit supplier' icon={<AiOutlineEdit />} />
-              <IconButton
-                onClick={() => openModel(item.id)}
-                color="red" size="sm" aria-label='delete supplier' icon={<AiOutlineDelete />} />
+              <ButtonGroup size="sm" variant="ghost">
+                <IconButton 
+                  onClick={() => router.push(`/supplier/update/${item.id}`)}
+                  aria-label='edit supplier' icon={<AiOutlineEdit />} />
+                <IconButton
+                  onClick={() => openModel(item.id)}
+                  color="red" aria-label='delete supplier' icon={<AiOutlineDelete />} />
+              </ButtonGroup>
+              
             </Td>
           </Tr>
 

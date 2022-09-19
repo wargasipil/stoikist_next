@@ -4,74 +4,7 @@ import { prisma } from '../../../src/helpers/database'
 import { z } from 'zod'
 import { validatePaginateQuery } from '../../../src/models/request'
 import { PaginateRes } from '../../../src/models/response'
-
-
-const validateOption = z.object({
-  name: z.string(),
-  options: z.array(z.string())
-})
-
-export type OptionCreatePayload = z.infer<typeof validateOption>
-
-const validateVariation = z.object({
-  names: z.array(z.string()),  
-  values: z.array(z.string()),
-  price: z.number(),
-  is_default: z.boolean(),
-  stock: z.number(),
-  sku_id: z.string()
-})
-
-export type VariationCreatePayload = z.infer<typeof validateVariation>
-
-const validateCreateProduct = z.object({
-  image_ids: z.array(z.number()).min(1),
-  rack_name: z.string().min(1),
-  marketing_status: z.string(),
-  hscode: z.string(),
-  weight: z.number().min(1),
-  name: z.string().min(1),
-
-  price: z.number().min(1),
-  stock: z.number().min(1),
-  sku_id: z.string().min(1),
-
-  options: z.array(validateOption),
-  variations: z.array(validateVariation),
-  categories: z.array(z.number()).min(1)
-})
-
-
-export type ProductCreatePayload = z.infer<typeof validateCreateProduct>
-
-async function createProduct(req: NextApiRequest): Promise<Product> {
-  const { body } = req
-  const payload = validateCreateProduct.parse(body)
-
-  const resource_ids = payload.image_ids.map(image => {
-    return {
-      resource_id: image
-    }
-  })
-  
-  const product = await prisma.product.create({
-    data: {
-      product_resource: {
-        createMany: {
-          data: resource_ids
-        }
-      },
-      hscode: payload.hscode,
-      marketing_status: payload.marketing_status,
-      name: payload.name,
-      rack_name: payload.rack_name,
-      weight: payload.weight
-    }
-  })
-
-  return product
-}
-
+import { createProduct, validateCreateProduct } from '../../../src/repos/ProductRepo';
 
 const validateQuery = z.object({
   name: z.string().or(z.undefined()),
@@ -160,12 +93,17 @@ function createListQuery(query: ProductListQuery){
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method, query: rawQuery } = req
+  const { method, query: rawQuery, body } = req
 
   switch (method) {
     case 'POST': {
       try {
-        const product = await createProduct(req)
+        const payload = validateCreateProduct.parse(body)
+        
+        const product = await prisma.$transaction(async prisma => {
+          return await createProduct(prisma, payload)
+          
+        })
         return res.status(200).send(product)
 
       } catch (err) {
@@ -198,6 +136,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ],
         include: {
           sku: true,
+          product_resource: {
+            include: {
+              resource: true
+            }
+          },
           categories: {
             select: {
               category: true

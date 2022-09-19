@@ -5,13 +5,13 @@ import VariationFormCreate, { optionCreateState, variationState } from "../../sr
 import { useState, useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
 import { AiFillFileAdd } from "react-icons/ai"
-import { ProductCreatePayload } from "../api/product"
 import { Category, Product } from "@prisma/client"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useAlert } from "../../src/components/AlertNotif"
 import ImageUploader from "../../src/components/product/ImageUploader"
 import { useImageUploader } from '../../src/components/product/ImageUploader';
+import { ProductCreatePayload } from "../../src/repos/ProductRepo"
 
 async function createProduct(payload: ProductCreatePayload): Promise<Product> {
   const res = await axios.post('/api/product', payload)
@@ -19,7 +19,13 @@ async function createProduct(payload: ProductCreatePayload): Promise<Product> {
   return res.data
 }
 
+// FIXME: product rackname perlu dibenahi 
+// FIXME: data product
+// FIXME: default variation belum bisa
+// FIXME: form input g enak
+// FIXME: error upload image keliru
 
+// FIXME: Category kosong
 
 export default function ProductCreate(){
   const options = useRecoilValue(optionCreateState)

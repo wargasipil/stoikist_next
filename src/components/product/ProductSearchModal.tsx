@@ -5,6 +5,8 @@ import { getProductList, ProductItem, IVariation } from '../../client_api/produc
 import useDebounce from '../../helpers/debounce';
 import ProductSelectItem from "./ProductSelectItem"
 
+// TODO: search nya nggak terlalu enak
+
 interface Prop {
   isOpen: boolean
   onOpen: () => void

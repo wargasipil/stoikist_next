@@ -17,7 +17,7 @@ async function saveFile(file: formidable.Files): Promise<Resource> {
 
   const resource = await prisma.resource.create({
     data: {
-      path: pathname
+      path: `/resources/${image.originalFilename}`
     }
   })
   

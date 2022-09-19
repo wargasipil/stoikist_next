@@ -134,6 +134,8 @@ model Variation {
 model Order {
   id              Int       @id @default(autoincrement())
   customer_id     Int
+  payment_method  PaymentMethod
+  order_from      OrderFrom
   status          StatusOrder
   items           OrderItem[]
   customer        Customer  @relation(fields: [customer_id], references: [id])
@@ -147,7 +149,7 @@ model Invoice {
   discount          Int               @default(0)
   total             Int
   promo_id          Int?
-  promo             Promo?            @relation(fields: [promo_id], references: [id])
+  promo             Promo?         @relation(fields: [promo_id], references: [id])
   created           DateTime          @default(now())
 
 }
@@ -178,8 +180,7 @@ model OrderItem {
 
 model Promo {
   id              Int             @id @default(autoincrement())
-  code            String          @unique
-  name            String
+  code            String
   desc            String?
   limit           Int?
   used            Int             @default(0)
@@ -289,5 +290,15 @@ enum StatusShipment {
 enum InvoiceStatus {
   PAID
   UNPAID
+  CREDIT
+}
+
+enum OrderFrom {
+  OFFLINE
+  ONLINE
+}
+
+enum PaymentMethod {
+  CASH
   CREDIT
 }

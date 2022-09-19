@@ -1,86 +1,14 @@
-import { Box, chakra, Flex, IconButton, Spinner, Table, Tbody, Tfoot, Th, Thead, Tr } from "@chakra-ui/react"
+import { Box, Flex, Spinner, Table, Tbody, Tfoot, Th, Thead, Tr } from "@chakra-ui/react"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 import MyPagination from "../../src/components/MyPagination"
 import Navbar from "../../src/components/Navbar"
 import ProductFilter from "../../src/components/product/ProductFilter"
 import { PaginateRes } from '../../src/models/response'
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
-import { ProductItem, IVariation, getProductList } from "../../src/client_api/product"
-import { AlertNotif } from "../../src/components/AlertNotif"
+import ConfirmModal from "../../src/components/ConfirmModal"
+import ProductListItem from '../../src/components/product/ProductListItem'
+import { getProductList, ProductItem } from "../../src/client_api/product"
 
-
-interface ProductTrProp { 
-  item: ProductItem
-  span?: number
-  varmode?: boolean
-  varindex?: number
-}
-
-function ProductTr(prop: ProductTrProp){
-  const { item, varindex, span, varmode } = prop
-  let vari: IVariation 
-  if(varindex){
-    vari = item.variation[varindex] 
-  } else {
-    vari = item.variation[0]
-  }
-
-  if(varmode){
-    return <chakra.tr>
-      <td>
-        Rp. { vari?.price }
-      </td>
-      <td>
-        { vari.values.join(", ") }
-      </td>
-      <td>
-        { vari.sku.stock }
-      </td>
-      <td>0</td>
-      <td>
-        { vari?.sku.last_restock }
-      </td>
-    </chakra.tr>
-  }
-
-  return <chakra.tr>
-  <chakra.td px="5" py="3" rowSpan={span}>{item.name}</chakra.td>
-  <td rowSpan={span}>{item.rack_name}</td>
-  <td rowSpan={span}>{item.hscode}</td>
-  <td rowSpan={span}>{item.marketing_status}</td>
-  <td rowSpan={span}>
-    {
-      item.categories.map(item => {
-        return item.category.name
-      }).join(' > ')
-    }
-  </td>
-
-  <td>
-    Rp. { vari?.price }
-  </td>
-  <td>
-    { vari?.values.join(", ") }
-  </td>
-  <td>
-    { vari?.sku.stock }
-  </td>
-  <td>0</td>
-  <td>
-    { vari?.sku.last_restock }
-  </td>
-
-
-  <chakra.td pr="5" align="right" rowSpan={span}>
-  <IconButton
-    size="sm" aria-label='edit supplier' icon={<AiOutlineEdit />} />
-  <IconButton
-    color="red" size="sm" aria-label='delete supplier' icon={<AiOutlineDelete />} />
-  </chakra.td>
-</chakra.tr>
-
-}
 
 
 export default function ProductPage () {
@@ -142,15 +70,15 @@ export default function ProductPage () {
                   const spleng = item.variation.length
                   const rows = item.variation.map( (vari, index) => {
                     if(index == 0){
-                      return <ProductTr key={vari.id} item={item} span={spleng}/>
+                      return <ProductListItem key={vari.id} item={item} span={spleng}/>
                     }
-                    return <ProductTr key={vari.id} item={item} span={spleng} varmode={true}/>
+                    return <ProductListItem key={vari.id} item={item} span={spleng} varmode={true}/>
                   })
 
                   return rows 
                 }
 
-                return <ProductTr key={item.id} item={item} />
+                return <ProductListItem key={item.id} item={item} />
               })
             }
             
@@ -181,6 +109,6 @@ export default function ProductPage () {
       
     
     </Box>
-    <AlertNotif />
+    <ConfirmModal />
   </Box>
 }

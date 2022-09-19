@@ -14,7 +14,7 @@ const imageUploaderInvalidState = atom<boolean>({
   default: false
 })
 
-async function uploadResource(file: File) {
+async function uploadResource(file: File): Promise<{ id: number, path: string }> {
   const body = new FormData()
   body.append('image', file)
   const data = await axios.post('/api/resource/upload', body)
@@ -28,7 +28,7 @@ export function useImageUploader(){
   const uploadMutate = useMutation(['uploadImageUploader'], async (): Promise<number[]> => {
     const hasil = await Promise.all(files.map(file => uploadResource(file)))
     setFiles([])
-    return hasil
+    return hasil.map(item => item.id)
   }, {
     onSuccess: () => {
       setInvalid(false)

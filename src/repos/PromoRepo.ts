@@ -15,8 +15,8 @@ export const validateCreatePromo = z.object({
   desc: z.string().or(z.undefined()),
   type: z.literal('PERCENT').or(z.literal('FIXED')),
   value: z.number(),
-  start: z.date().or(z.undefined()),
-  end: z.date().or(z.undefined())
+  start: z.number().or(z.undefined()),
+  end: z.number().or(z.undefined())
 })
 
 export type CreatePromo = z.infer<typeof validateCreatePromo>
@@ -39,7 +39,15 @@ export async function createPromo(prisma: Prisma.TransactionClient, payload: Cre
   }
 
   promo = await prisma.promo.create({
-    data: payload
+    data: {
+      code: payload.code,
+      type: payload.type,
+      name: payload.name,
+      value: payload.value,
+      end: payload.end ? new Date(payload.end): undefined,
+      start: payload.start ? new Date(payload.start): undefined
+
+    }
   })
 
   return {
